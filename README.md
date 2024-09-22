@@ -1,0 +1,1 @@
+# plugins-product-variations-swatches-for-woocommerce
