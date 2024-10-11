@@ -27,8 +27,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 
 	public function woocommerce_attribute_added( $id, $data ) {
 		global $vi_wpvs_settings;
-		$vi_attribute_profile                                     = isset( $_POST['attribute_vi_profile'] ) ? sanitize_text_field( $_POST['attribute_vi_profile'] ) : '';
-		$attribute_vi_display_type                                = isset( $_POST['attribute_vi_display_type'] ) ? sanitize_text_field( $_POST['attribute_vi_display_type'] ) : '';
+		$vi_attribute_profile                                     = isset( $_POST['attribute_vi_profile'] ) ? sanitize_text_field( $_POST['attribute_vi_profile'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$attribute_vi_display_type                                = isset( $_POST['attribute_vi_display_type'] ) ? sanitize_text_field( $_POST['attribute_vi_display_type'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$args                                                     = array();
 		$taxonomy_profiles                                        = isset( $vi_wpvs_settings['taxonomy_profiles'] ) ? $vi_wpvs_settings['taxonomy_profiles'] : array();
 		$taxonomy_display_type                                    = isset( $vi_wpvs_settings['taxonomy_display_type'] ) ? $vi_wpvs_settings['taxonomy_display_type'] : array();
@@ -43,8 +43,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 
 	public function woocommerce_attribute_updated( $id, $data, $old_slug ) {
 		global $vi_wpvs_settings;
-		$vi_attribute_profile      = isset( $_POST['attribute_vi_profile'] ) ? sanitize_text_field( $_POST['attribute_vi_profile'] ) : '';
-		$attribute_vi_display_type = isset( $_POST['attribute_vi_display_type'] ) ? sanitize_text_field( $_POST['attribute_vi_display_type'] ) : '';
+		$vi_attribute_profile      = isset( $_POST['attribute_vi_profile'] ) ? sanitize_text_field( $_POST['attribute_vi_profile'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$attribute_vi_display_type = isset( $_POST['attribute_vi_display_type'] ) ? sanitize_text_field( $_POST['attribute_vi_display_type'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$args                      = array();
 		$taxonomy_profiles         = isset( $vi_wpvs_settings['taxonomy_profiles'] ) ? $vi_wpvs_settings['taxonomy_profiles'] : array();
 		$taxonomy_display_type     = isset( $vi_wpvs_settings['taxonomy_display_type'] ) ? $vi_wpvs_settings['taxonomy_display_type'] : array();
@@ -124,16 +124,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 	public function woocommerce_after_edit_attribute_fields() {
 		global $wpdb;
 		$this->settings           = new  VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
-		$attribute_id             = isset( $_GET['edit'] ) ? absint( sanitize_text_field( $_GET['edit'] ) ) : 0;
-		$attribute_slug           = $wpdb->get_var(
-			$wpdb->prepare(
-				"
-				SELECT attribute_name
-				FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_id = %d
-				",
-				$attribute_id
-			)
-		);
+		$attribute_id             = isset( $_GET['edit'] ) ? absint( sanitize_text_field( $_GET['edit'] ) ) : 0;// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$attribute_slug           = $wpdb->get_var( $wpdb->prepare( "SELECT attribute_name FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_id = %d", $attribute_id ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$vi_wpvs_ids              = $this->settings->get_params( 'ids' );
 		$vi_wpvs_names            = $this->settings->get_params( 'names' );
 		$vi_attribute_profiles    = $this->settings->get_params( 'taxonomy_profiles' );
@@ -210,31 +202,23 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 			return;
 		}
 		$args                    = array();
-		$args['type']            = isset( $_POST['vi_wpvs_term_type'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_type'] ) : '';
-		$args['img_id']          = isset( $_POST['vi_wpvs_term_image'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_image'] ) : '';
-		$args['color']           = isset( $_POST['vi_wpvs_term_color'] ) ? array_map( 'sanitize_text_field', $_POST['vi_wpvs_term_color'] ) : array();
-		$args['color_separator'] = isset( $_POST['vi_wpvs_term_color_separator'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_color_separator'] ) : '';
+		$args['type']            = isset( $_POST['vi_wpvs_term_type'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_type'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$args['img_id']          = isset( $_POST['vi_wpvs_term_image'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_image'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$args['color']           = isset( $_POST['vi_wpvs_term_color'] ) ? array_map( 'sanitize_text_field', $_POST['vi_wpvs_term_color'] ) : array();// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$args['color_separator'] = isset( $_POST['vi_wpvs_term_color_separator'] ) ? sanitize_text_field( $_POST['vi_wpvs_term_color_separator'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$args                    = wp_parse_args( $args, get_term_meta( $term_id, 'vi_wpvs_terms_params', true ) );
 		update_term_meta( $term_id, 'vi_wpvs_terms_params', $args );
 	}
 
 	public function global_attribute_edit_form_fields() {
-		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) ) : '';
+		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! $taxonomy_name ) {
 			return;
 		}
 		global $wpdb;
-		$tag_ID                        = isset( $_GET['tag_ID'] ) ? absint( wp_unslash( $_GET['tag_ID'] ) ) : '';
+		$tag_ID                        = isset( $_GET['tag_ID'] ) ? absint( wp_unslash( $_GET['tag_ID'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$attribute_name                = substr( $taxonomy_name, 3 );
-		$attribute_type                = $wpdb->get_var(
-			$wpdb->prepare(
-				"
-				SELECT attribute_type
-				FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_name = %s
-				",
-				$attribute_name
-			)
-		);
+		$attribute_type                = $wpdb->get_var( $wpdb->prepare( "SELECT attribute_type FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_name = %s", $attribute_name ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		$vi_wpvs_terms_settings        = get_term_meta( $tag_ID, 'vi_wpvs_terms_params', true );
 		?>
         <input type="hidden" name="vi_wpvs_term_type" id="vi_wpvs_term_type"
@@ -387,21 +371,13 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 	}
 
 	public function global_attribute_add_form_fields() {
-		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) ) : '';
+		$taxonomy_name = isset( $_GET['taxonomy'] ) ? sanitize_text_field( wp_unslash( $_GET['taxonomy'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! $taxonomy_name ) {
 			return;
 		}
 		global $wpdb;
 		$attribute_name = substr( $taxonomy_name, 3 );
-		$attribute_type = $wpdb->get_var(
-			$wpdb->prepare(
-				"
-				SELECT attribute_type
-				FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_name = %s
-				",
-				$attribute_name
-			)
-		);
+		$attribute_type = $wpdb->get_var( $wpdb->prepare( "SELECT attribute_type FROM {$wpdb->prefix}woocommerce_attribute_taxonomies WHERE attribute_name = %s", $attribute_name ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		?>
         <input type="hidden" name="vi_wpvs_term_type" id="vi_wpvs_term_type"
                value="<?php echo esc_attr( $attribute_type ); ?>">
@@ -531,12 +507,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 		$screen = get_current_screen();
 		if ( $screen->id === 'product_page_product_attributes' || ( 'pa_' === substr( $screen->taxonomy, 0, 3 ) ) ) {
 
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-global-attributes',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-global-attributes.js',
-				array( 'jquery' ) );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-global-attributes',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-global-attributes.css' );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-global-attributes', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-global-attributes.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-global-attributes', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-global-attributes.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 			$args = array(
 				'ajax_url'                  => admin_url( 'admin-ajax.php' ),

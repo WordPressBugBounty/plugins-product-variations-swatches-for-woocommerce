@@ -757,30 +757,16 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 			return;
 		}
 		if ( WP_DEBUG ) {
-			wp_enqueue_style( 'vi-wpvs-frontend-style',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'frontend-style.css',
-				array(),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'vi-wpvs-frontend-script',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'frontend-script.js',
-				array( 'jquery' ),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION,
-				true );
+			wp_enqueue_style( 'vi-wpvs-frontend-style', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'frontend-style.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'vi-wpvs-frontend-script', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'frontend-script.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 		} else {
-			wp_enqueue_style( 'vi-wpvs-frontend-style',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'frontend-style.min.css',
-				array(),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'vi-wpvs-frontend-script',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'frontend-script.min.js',
-				array( 'jquery' ),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION,
-				true );
+			wp_enqueue_style( 'vi-wpvs-frontend-style', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'frontend-style.min.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'vi-wpvs-frontend-script', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'frontend-script.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 		}
 		$args_localize = array();
 		if ( class_exists( 'WJECF_WC_Discounts' ) ) {
 			$args_localize['wjecf_wc_discounts'] = true;
-			$args_localize['is_checkout'] = is_checkout();
+			$args_localize['is_checkout']        = is_checkout();
 		}
 		wp_localize_script( 'vi-wpvs-frontend-script', 'vi_wpvs_frontend_param', $args_localize );
 

@@ -258,7 +258,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA {
 			return implode( ' ', array_map( array( $this, 'set' ), $name ) );
 
 		} else {
-			return esc_attr__( $this->prefix . $name );
+			return esc_attr( $this->prefix . $name );
 
 		}
 	}

@@ -32,19 +32,20 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 			'status'  => '',
 			'content' => '',
 		);
-		if ( ! current_user_can( 'edit_products' ) || ! isset( $_POST['attribute_name'], $_POST['i'] ) ) {
+		if ( ! current_user_can( 'edit_products' ) || ! isset( $_POST['attribute_name'], $_POST['i'] ) ) {// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$result['status']  = 'error';
 			$result['content'] = 'can\'t edit';
 		}
-		$i                 = wc_clean( $_POST['i'] );
-		$attribute_name    = wc_clean( $_POST['attribute_name'] );
-		$vi_attribute_type = isset( $_POST['vi_attribute_type'] ) ? wc_clean( $_POST['vi_attribute_type'] ) : '';
-		$available         = isset( $_POST['available'] ) ? wc_clean( $_POST['available'] ) : array();
+		$i                 = wc_clean( $_POST['i'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$attribute_name    = wc_clean( $_POST['attribute_name'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$vi_attribute_type = isset( $_POST['vi_attribute_type'] ) ? wc_clean( $_POST['vi_attribute_type'] ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$available         = isset( $_POST['available'] ) ? wc_clean( $_POST['available'] ) : array();// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$args              = array(
+			'taxonomy'   => $attribute_name,
 			'orderby'    => 'name',
 			'hide_empty' => 0,
 		);
-		$all_terms         = get_terms( $attribute_name, apply_filters( 'woocommerce_product_attribute_terms', $args ) );
+		$all_terms         = get_terms( apply_filters( 'woocommerce_product_attribute_terms', $args ) );
 		if ( $all_terms && count( $all_terms ) ) {
 			ob_start();
 			foreach ( $all_terms as $k => $term ) {
@@ -80,19 +81,19 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 			'status'  => '',
 			'content' => '',
 		);
-		if ( ! current_user_can( 'edit_products' ) || ! isset( $_POST['product_id'], $_POST['attribute_name'], $_POST['i'], $_POST['term_id'] ) ) {
+		if ( ! current_user_can( 'edit_products' ) || ! isset( $_POST['product_id'], $_POST['attribute_name'], $_POST['i'], $_POST['term_id'] ) ) {// phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$result['status']  = 'error';
 			$result['content'] = 'can\'t edit';
 		}
-		$term_id = wc_clean( $_POST['term_id'] );
+		$term_id = wc_clean( $_POST['term_id'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$term    = get_term( $term_id );
 		if ( ! $term ) {
 			$result['status']  = 'error';
 			$result['content'] = 'not term';
 		} else {
-			$product_id     = wc_clean( $_POST['product_id'] );
-			$i              = wc_clean( $_POST['i'] );
-			$attribute_name = wc_clean( $_POST['attribute_name'] );
+			$product_id     = wc_clean( $_POST['product_id'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$i              = wc_clean( $_POST['i'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$attribute_name = wc_clean( $_POST['attribute_name'] );// phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			$vi_attribute_settings        = get_post_meta( $product_id, '_vi_woo_product_variation_swatches_product_attribute', true );
 			$vi_attribute_settings        = $vi_attribute_settings ? json_decode( $vi_attribute_settings, true ) : array();
@@ -341,14 +342,10 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 		$screen = get_current_screen();
 		if ( $screen->id == 'product' ) {
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-custom-attribute.css', array(),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'select2', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'select2.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-custom-attribute',
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-custom-attribute.js',
-				array( 'jquery' ),
-				VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-custom-attribute.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'select2', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'select2.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-custom-attribute.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 			$args = array(
 				'ajax_url'               => admin_url( 'admin-ajax.php' ),
 				'settings_default_color' => $this->settings->get_default_color(),

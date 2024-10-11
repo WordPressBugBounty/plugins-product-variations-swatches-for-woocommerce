@@ -50,7 +50,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 		//save attribute type
 		if ( $type ) {
 			global $wpdb;
-			$wpdb->update( "{$wpdb->prefix}woocommerce_attribute_taxonomies", array( 'attribute_type' => $type ), array( 'attribute_name' => $slug ), array( '%s' ), array( '%s' ) );
+			$wpdb->update( "{$wpdb->prefix}woocommerce_attribute_taxonomies", array( 'attribute_type' => $type ), array( 'attribute_name' => $slug ), array( '%s' ), array( '%s' ) );// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 			// Clear cache and flush rewrite rules.
 			wp_schedule_single_event( time(), 'woocommerce_flush_rewrite_rules' );
 			delete_transient( 'wc_attribute_taxonomies' );
@@ -230,8 +230,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 		if ( empty ( $per_page ) || $per_page < 1 ) {
 			$per_page = $screen->get_option( 'per_page', 'default' );
 		}
-		$paged                = isset( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 1;
-		$keyword              = isset( $_GET['vi_wvps_search'] ) ? strtolower( sanitize_text_field( $_GET['vi_wvps_search'] ) ) : '';
+		$paged                = isset( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 1;// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$keyword              = isset( $_GET['vi_wvps_search'] ) ? strtolower( sanitize_text_field( $_GET['vi_wvps_search'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$attribute_taxonomies = wc_get_attribute_taxonomies();
 		?>
         <div class="wrap<?php echo is_rtl() ? esc_attr( ' vi-wpvs-wrap-rtl' ) : ''; ?>">
@@ -625,7 +625,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 	}
 
 	public function admin_enqueue_scripts() {
-		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page === 'woocommerce-product-variations-swatches-global-attrs' ) {
 			global $wp_scripts;
 			if ( isset( $wp_scripts->registered['jquery-ui-accordion'] ) ) {
@@ -674,19 +674,19 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-attrs-attrs-css', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-setting-attrs.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 
-			wp_enqueue_script( 'jquery-data-table', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'jquery.dataTables.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-data-table', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dataTables.semanticui.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'jquery-data-table', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'jquery.dataTables.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-data-table', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dataTables.semanticui.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 			wp_enqueue_media();
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'accordion.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-address', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'address.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-checkbox', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'checkbox.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-dropdown', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dropdown.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-form', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'form.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'transition', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'transition.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'accordion.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-address', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'address.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-checkbox', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'checkbox.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-dropdown', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dropdown.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-form', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'form.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'transition', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'transition.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-attrs-js', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-setting-attrs.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-attrs-js', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-setting-attrs.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 			$args = array(
 				'ajax_url'               => admin_url( 'admin-ajax.php' ),
 				'settings_default_color' => $this->settings->get_default_color(),

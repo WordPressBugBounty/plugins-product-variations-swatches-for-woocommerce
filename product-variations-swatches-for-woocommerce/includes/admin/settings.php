@@ -1006,7 +1006,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 		}
 		if ( isset( $_POST['vi-wpvs-export'] ) ) {
 			$filename     = 'wpvs_swatches_settings.csv';
-			$export_value = json_encode( get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
+			$export_value = wp_json_encode( get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT );
 			$fh           = @fopen( 'php://output', 'w' );
 			header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 			header( 'Content-Description: File Transfer' );
@@ -1014,8 +1014,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			header( 'Content-Disposition: attachment; filename=' . $filename );
 			header( 'Expires: 0' );
 			header( 'Pragma: public' );
-			fwrite( $fh, $export_value );
-			fclose( $fh );
+			fwrite( $fh, $export_value );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
+			fclose( $fh );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			die;
 		}
 		if ( isset( $_POST['vi-wpvs-import-choose_file'] ) ) {
@@ -1036,7 +1036,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 
 				return;
 			}
-			$file_content = file_get_contents( $import['tmp_name'] );
+			$file_content = file_get_contents( $import['tmp_name'] );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			if ( ! $file_content ) {
 				$this->error = __( 'File is empty.', 'product-variations-swatches-for-woocommerce' );
 
@@ -1145,7 +1145,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 
 
 	public function admin_enqueue_scripts() {
-		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page === 'woocommerce-product-variations-swatches' ) {
 			global $wp_scripts;
 			if ( isset( $wp_scripts->registered['jquery-ui-accordion'] ) ) {
@@ -1190,15 +1190,15 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-css', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-settings.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'accordion.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-address', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'address.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-checkbox', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'checkbox.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-dropdown', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dropdown.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-form', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'form.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'semantic-ui-tab', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'tab.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'transition', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'transition.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-js', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-settings.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+			wp_enqueue_script( 'semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'accordion.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-address', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'address.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-checkbox', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'checkbox.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-dropdown', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'dropdown.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-form', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'form.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'semantic-ui-tab', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'tab.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'transition', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'transition.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-js', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-settings.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 		}
 	}
 }

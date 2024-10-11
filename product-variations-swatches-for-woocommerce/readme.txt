@@ -4,12 +4,12 @@ Donate link: http://www.villatheme.com/donate
 Tags: ecommerce, variation swatches for woocommerce, woocommerce, woocommerce swatches, woocommerce variation swatches
 Requires at least: 5.0.0
 Requires PHP: 7.0
-Tested up to: 6.5.2
-Stable tag: 1.1.4
+Tested up to: 6.6
+Stable tag: trunk
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Display product variations visually with color, buttons, images, and radio for better customer exploration.
+Customize WooCommerce variations with swatches: color, buttons, images, and radio. Enhance product visuals for rapid purchase decisions.
 
 == Description ==
 
@@ -207,6 +207,10 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/**1.1.5 - 2024.10.11**/
+– Updated: Compatible with WC 9.3 and  WP 6.6
+- Updated: Class VillaTheme_Support
+
 /**1.1.4 - 2024.04.13**/
 – Updated: Compatible with WC 8.7 and  WP 6.5
 - Updated: Update support file

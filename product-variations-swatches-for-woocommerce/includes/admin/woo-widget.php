@@ -67,7 +67,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Woo_Widget {
 		<?php
 	}
 	public function admin_enqueue_scripts(){
-		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page === 'woocommerce-product-variations-swatches-woo-widget' ) {
 			wp_dequeue_style('eopa-admin-css');
 			wp_enqueue_style( 'semantic-ui-button', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'button.min.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );

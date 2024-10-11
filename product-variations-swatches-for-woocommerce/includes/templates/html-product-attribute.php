@@ -129,10 +129,11 @@ $metabox_class      = implode( ' ', $metabox_class );
                      data-attribute_name="<?php echo esc_attr( $attribute_name ); ?>">
 					<?php
 					$args      = array(
+						'taxonomy'   => $attribute->get_taxonomy(),
 						'orderby'    => isset( $attribute_taxonomy->attribute_orderby ) ? $attribute_taxonomy->attribute_orderby : 'name',
 						'hide_empty' => 0,
 					);
-					$all_terms = get_terms( $attribute->get_taxonomy(), apply_filters( 'woocommerce_product_attribute_terms', $args ) );
+					$all_terms = get_terms( apply_filters( 'woocommerce_product_attribute_terms', $args ) );
 					if ( $all_terms ) {
 						if ( count( $all_terms ) > 30 ) {
 							foreach ( $attribute_options as $option ) {
