@@ -4,7 +4,7 @@ Donate link: http://www.villatheme.com/donate
 Tags: ecommerce, variation swatches for woocommerce, woocommerce, woocommerce swatches, woocommerce variation swatches
 Requires at least: 5.0.0
 Requires PHP: 7.0
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: trunk
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -207,6 +207,9 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.6 - 2024.11.23**/
+- Updated: Compatible with WC 9.4 and WP 6.7
+
 /**1.1.5 - 2024.10.11**/
 – Updated: Compatible with WC 9.3 and  WP 6.6
 - Updated: Class VillaTheme_Support

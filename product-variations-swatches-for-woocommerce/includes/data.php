@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA {
-	private $params, $default, $default_color, $data_defaut;
+	private $params, $default, $default_color, $data_defaut,$prefix;
 
 	/**
 	 * VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA constructor.

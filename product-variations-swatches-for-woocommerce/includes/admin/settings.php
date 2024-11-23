@@ -98,6 +98,32 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                             </tr>
                             <tr>
                                 <th>
+                                    <label>
+										<?php esc_html_e( 'Blur out backorders', 'product-variations-swatches-for-woocommerce' ) ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>
+										<?php esc_html_e( 'Prioritize first attribute', 'product-variations-swatches-for-woocommerce' ) ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                    <p class="description"><?php esc_html_e( 'For products that have more than 1 attribute, when selecting a value of the first attribute but the current combination is not available, select this value anyway and change selections of other attributes instead', 'product-variations-swatches-for-woocommerce' ); ?>                                    </p>
+                                    <p class="description">
+                                        <strong><?php esc_html_e( '*Important: ', 'woocommerce-product-variations-swatches' ); ?></strong><?php esc_html_e( 'To make out-of-stock items clickable, you have to turn off "Disable \'out of stock\' variation items" option', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
                                     <label for="vi-wpvs-custom_css">
 										<?php esc_html_e( 'Custom css', 'product-variations-swatches-for-woocommerce' ) ?>
                                     </label>
@@ -247,24 +273,37 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="field">
-                                            <label>
-												<?php esc_html_e( 'Change the size of attribute items on', 'product-variations-swatches-for-woocommerce' ); ?>
-                                            </label>
-                                            <div class="equal width fields">
-                                                <div class="field">
-                                                    <div class="vi-ui right labeled fluid input">
-                                                        <div class="vi-ui label vi-wpvs-right-input-label">
-															<?php esc_html_e( 'Mobile', 'product-variations-swatches-for-woocommerce' ) ?>
-                                                        </div>
-                                                        <input type="number"
-                                                               name="attribute_reduce_size_mobile[]"
-                                                               min="30"
-                                                               max="100"
-                                                               class="vi-wpvs-attribute_reduce_size_mobile"
-                                                               value="<?php echo esc_attr( $attribute_reduce_size_mobile ); ?>">
-                                                        <div class="vi-ui label">
-															<?php esc_html_e( '%', 'product-variations-swatches-for-woocommerce' ); ?>
+                                        <div class="equal width fields">
+                                            <div class="field">
+                                                <label>
+			                                        <?php esc_html_e( 'Attribute image size', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </label>
+                                                <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                                   target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                            </div>
+                                            <div class="field">
+                                                <label>
+			                                        <?php esc_html_e( 'Change the size of attribute items on', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </label>
+                                                <div class="equal width fields">
+                                                    <div class="field">
+                                                        <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                                           target="_blank"><?php esc_html_e( 'Product list - Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                                    </div>
+                                                    <div class="field">
+                                                        <div class="vi-ui right labeled fluid input">
+                                                            <div class="vi-ui label vi-wpvs-right-input-label">
+						                                        <?php esc_html_e( 'Mobile', 'product-variations-swatches-for-woocommerce' ) ?>
+                                                            </div>
+                                                            <input type="number"
+                                                                   name="attribute_reduce_size_mobile[]"
+                                                                   min="30"
+                                                                   max="100"
+                                                                   class="vi-wpvs-attribute_reduce_size_mobile"
+                                                                   value="<?php echo esc_attr( $attribute_reduce_size_mobile ); ?>">
+                                                            <div class="vi-ui label">
+						                                        <?php esc_html_e( '%', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -360,6 +399,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 															<?php esc_html_e( 'Blur with icon', 'product-variations-swatches-for-woocommerce' ); ?>
                                                         </option>
                                                     </select>
+                                                    <p class="description"><?php esc_html_e( 'This function does not work for products whose number of variations is greater than the "Ajax variation threshold"', 'product-variations-swatches-for-woocommerce' ); ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -595,6 +635,11 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                             </div>
                                             <div class="equal width fields">
                                                 <div class="field">
+                                                    <label for="">
+			                                            <?php esc_html_e( 'Tooltip content', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </label>
+                                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                                 </div>
                                                 <div class="field">
                                                     <label for="">
@@ -645,6 +690,13 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 															<?php esc_html_e( 'Px', 'product-variations-swatches-for-woocommerce' ); ?>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="field">
+                                                    <label for="">
+			                                            <?php esc_html_e( 'Tooltip image width', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </label>
+                                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -751,6 +803,31 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     </p>
                                 </td>
                             </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-single-product-align">
+				                        <?php esc_html_e( 'Swatches align', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-single-product_list_slider-checkbox">
+				                        <?php esc_html_e( 'Single Swatches slider', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                    <p class="description">
+				                        <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'woocommerce-product-variations-swatches' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div class="vi-ui bottom attached tab segment" data-tab="product_list">
@@ -765,6 +842,18 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                 <td>
                                     <a class="vi-ui button" href="https://1.envato.market/bd0ek"
                                        target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-out_of_stock_variation_disable_archive-checkbox">
+			                            <?php esc_html_e( 'Disable \'out of stock\' variation items', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                    <p class="description"><?php esc_html_e( 'This function does not work for products whose number of variations is greater than the "Ajax variation threshold"', 'product-variations-swatches-for-woocommerce' ); ?></p>
                                 </td>
                             </tr>
                             <tr valign="top">
