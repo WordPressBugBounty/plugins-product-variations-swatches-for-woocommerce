@@ -9,7 +9,7 @@ Stable tag: trunk
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Customize WooCommerce variations with swatches: color, buttons, images, and radio. Enhance product visuals for rapid purchase decisions.
+Elegant Color, Image, and Button Swatches for WooCommerce product attributes – Elevate Product Variations and Delight Your Customers.
 
 == Description ==
 
@@ -21,7 +21,7 @@ Product Variations Swatches for WooCommerce is a professional plugin that allows
 
 ### Important Notice:
 
-- Plugin works based on WooCommerce 5.x or higher, PHP 7.0+
+- Plugin works based on WooCommerce 7.x or higher, PHP 7.0+
 
 - It is released on WordPress.org and you can use plugin as free to build themes for sale.
 
@@ -207,6 +207,9 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.7 - 2024.12.28**/
+- Updated: Compatible with WC 9.5
+
 /** 1.1.6 - 2024.11.23**/
 - Updated: Compatible with WC 9.4 and WP 6.7
 

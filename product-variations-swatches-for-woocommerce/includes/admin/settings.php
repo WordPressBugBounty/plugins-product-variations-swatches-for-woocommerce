@@ -856,7 +856,25 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     <p class="description"><?php esc_html_e( 'This function does not work for products whose number of variations is greater than the "Ajax variation threshold"', 'product-variations-swatches-for-woocommerce' ); ?></p>
                                 </td>
                             </tr>
-                            <tr valign="top">
+                            <tr>
+                                <th>
+                                    <label>
+										<?php esc_html_e( 'Redirect to product', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+
+                                    <p class="description">
+		                                <?php esc_html_e( 'When clicking on an attribute, redirecting to the product page with a selected variation is allowed.', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                    <p class="description">
+		                                <?php echo wp_kses_post(__( 'Please turn off the <strong>Enable add to cart</strong> option to use this feature.', 'product-variations-swatches-for-woocommerce' )); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>
                                     <label>
 										<?php esc_html_e( 'Enable add to cart', 'product-variations-swatches-for-woocommerce' ); ?>

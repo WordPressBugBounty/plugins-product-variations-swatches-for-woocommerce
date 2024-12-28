@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Product Variations Swatches for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woocommerce-product-variations-swatches
- * Description: Customize WooCommerce variations with swatches: color, buttons, images, and radio. Enhance product visuals for rapid purchase decisions.
- * Version: 1.1.6
+ * Description: Elegant Color, Image, and Button Swatches for WooCommerce product attributes – Elevate Product Variations and Delight Your Customers.
+ * Version: 1.1.7
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -13,7 +13,7 @@
  * Copyright 2020-2024 VillaTheme.com. All rights reserved.
  * Tested up to: 6.7
  * WC requires at least: 7.0.0
- * WC tested up to: 9.4
+ * WC tested up to: 9.5
  * Requires PHP: 7.0
  * Requires at least: 5.0
  * Requires Plugins: woocommerce
@@ -21,7 +21,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.6' );
+define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.7' );
 /**
  * Return if the premium version is active
  */
