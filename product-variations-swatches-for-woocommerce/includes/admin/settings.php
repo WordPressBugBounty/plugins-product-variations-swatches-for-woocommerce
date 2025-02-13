@@ -58,12 +58,10 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 					wp_nonce_field( '_vi_woo_product_variation_swatches_settings_action', '_vi_woo_product_variation_swatches_settings' );
 					?>
                     <div class="vi-ui vi-ui-main top tabular attached menu">
-                        <a class="item"
-                           data-tab="general"><?php esc_html_e( 'General Settings', 'product-variations-swatches-for-woocommerce' ); ?></a>
                         <a class="item active"
-                           data-tab="swatches_profile"><?php esc_html_e( 'Swatches Profile', 'product-variations-swatches-for-woocommerce' ); ?></a>
+                           data-tab="general"><?php esc_html_e( 'General Settings', 'product-variations-swatches-for-woocommerce' ); ?></a>
                         <a class="item"
-                           data-tab="single_page"><?php esc_html_e( 'Swatches on Single page', 'product-variations-swatches-for-woocommerce' ); ?></a>
+                           data-tab="swatches_profile"><?php esc_html_e( 'Swatches Profile', 'product-variations-swatches-for-woocommerce' ); ?></a>
                         <a class="item"
                            data-tab="product_list"><?php esc_html_e( 'Swatches on Product List', 'product-variations-swatches-for-woocommerce' ); ?></a>
                         <a class="item"
@@ -72,7 +70,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                     <div class="vi-ui bottom attached tab segment" data-tab="general">
                         <table class="form-table">
                             <tbody>
-                            <tr valign="top">
+                            <tr>
                                 <th>
                                     <label for="vi-wpvs-attribute_display_default">
 										<?php esc_html_e( 'Default display type', 'product-variations-swatches-for-woocommerce' ); ?>
@@ -82,7 +80,10 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     <select name="attribute_display_default" id="vi-wpvs-attribute_display_default"
                                             class="vi-ui fluid dropdown vi-wpvs-attribute_display_default">
                                         <option value="none" <?php selected( $attribute_display_default, 'none' ) ?>>
-											<?php esc_html_e( 'No change', 'product-variations-swatches-for-woocommerce' ); ?>
+											<?php esc_html_e( 'None', 'product-variations-swatches-for-woocommerce' ); ?>
+                                        </option>
+                                        <option value="variation_img" <?php selected( $attribute_display_default, 'variation_img' ) ?>>
+		                                    <?php esc_html_e( 'Variation Image', 'woocommerce-product-variations-swatches' ); ?>
                                         </option>
                                         <option value="button" <?php selected( $attribute_display_default, 'button' ) ?>>
 											<?php esc_html_e( 'Button', 'product-variations-swatches-for-woocommerce' ); ?>
@@ -92,7 +93,124 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                         </option>
                                     </select>
                                     <p class="description">
-										<?php esc_html_e( 'This is used if an attribute is not config yet or no rules are applied', 'product-variations-swatches-for-woocommerce' ); ?>
+										<?php echo wp_kses_post(__( 'This is used if an attribute is not config yet or no rules are applied. You can design how it is displayed at <a href="#swatches_profile"><strong>Swatches Profile</strong></a>. Please enable the checkbox next to the profile name to apply this as the default display style.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                    </p>
+                                    <p class="description">
+		                                <?php echo wp_kses_post(__( 'If each of your products has a single attribute and already has images assigned to its variations, we highly recommend selecting <strong>Variation Image</strong>.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-variation_threshold_single_page">
+			                            <?php esc_html_e( 'Ajax variation threshold', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <input type="number" min="1" max="300" name="variation_threshold_single_page"
+                                           class="vi-wpvs-variation_threshold_single_page"
+                                           id="vi-wvps-variation_threshold_single_page"
+                                           value="<?php echo esc_attr( $variation_threshold_single_page ); ?>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-out_of_stock_variation_disable-checkbox">
+			                            <?php esc_html_e( 'Disable \'out of stock\' variation items', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="vi-ui toggle checkbox">
+                                        <input type="hidden" name="out_of_stock_variation_disable"
+                                               class="vi-wpvs-out_of_stock_variation_disable"
+                                               value="<?php echo esc_attr( $out_of_stock_variation_disable ); ?>">
+                                        <input type="checkbox" id="vi-wpvs-out_of_stock_variation_disable-checkbox"
+                                               class="vi-wpvs-out_of_stock_variation_disable-checkbox" <?php checked( $out_of_stock_variation_disable, '1' ); ?>><label>
+                                    </div>
+                                    <p class="description">
+			                            <?php esc_html_e( 'This function does not work for products whose number of variations is greater than the "Ajax variation threshold"', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-attribute_double_click-checkbox">
+			                            <?php esc_html_e( 'Clear on Reselect', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="vi-ui toggle checkbox">
+                                        <input type="hidden" name="attribute_double_click"
+                                               class="vi-wpvs-attribute_double_click"
+                                               value="<?php echo esc_attr( $attribute_double_click ); ?>">
+                                        <input type="checkbox" id="vi-wpvs-attribute_double_click-checkbox"
+                                               class="vi-wpvs-attribute_double_click-checkbox" <?php checked( $attribute_double_click, '1' ); ?>><label>
+                                    </div>
+                                    <p class="description">
+			                            <?php esc_html_e( 'On single product page, clicking on a selected attribute will deselect it', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-single_attr_title-checkbox">
+			                            <?php esc_html_e( 'Enable attribute title', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="vi-ui toggle checkbox">
+                                        <input type="hidden" name="single_attr_title"
+                                               class="vi-wpvs-single_attr_title"
+                                               value="<?php echo esc_attr( $single_attr_title ); ?>">
+                                        <input type="checkbox" id="vi-wpvs-single_attr_title-checkbox"
+                                               class="vi-wpvs-single_attr_title-checkbox" <?php checked( $single_attr_title, '1' ); ?>><label>
+                                    </div>
+                                    <p class="description">
+			                            <?php esc_html_e( 'Show attribute title on single product page', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr class="vi-wpvs-single_attr_title-enable <?php echo $single_attr_title ? '' : ' vi-wpvs-hidden' ?>">
+                                <th>
+                                    <label for="vi-wpvs-single_attr_selected-checkbox">
+			                            <?php esc_html_e( 'Show selected attribute item', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="vi-ui toggle checkbox">
+                                        <input type="hidden" name="single_attr_selected"
+                                               class="vi-wpvs-single_attr_selected"
+                                               value="<?php echo esc_attr( $single_attr_selected ); ?>">
+                                        <input type="checkbox" id="vi-wpvs-single_attr_selected-checkbox"
+                                               class="vi-wpvs-single_attr_selected-checkbox" <?php checked( $single_attr_selected, '1' ); ?>><label>
+                                    </div>
+                                    <p class="description">
+			                            <?php esc_html_e( 'Display the selected item beside attribute title on single product page', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-single-product-align">
+			                            <?php esc_html_e( 'Swatches align', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label for="vi-wpvs-single-product_list_slider-checkbox">
+			                            <?php esc_html_e( 'Single Swatches slider', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                    <p class="description">
+			                            <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'woocommerce-product-variations-swatches' ); ?>
                                     </p>
                                 </td>
                             </tr>
@@ -137,9 +255,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                         </table>
                     </div>
                     <div class="vi-ui bottom attached tab segment active" data-tab="swatches_profile">
-                        <div class="vi-ui blue message">
-							<?php esc_html_e( 'The settings allow to design variation swatches', 'product-variations-swatches-for-woocommerce' ); ?>
-                        </div>
 						<?php
 						if ( $count_ids ) {
 							for ( $i = 0; $i < $count_ids; $i ++ ) {
@@ -712,127 +827,38 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                         </p>
                     </div>
-                    <div class="vi-ui bottom attached tab segment vi-wpvs-tab-single_page" data-tab="single_page">
-                        <table class="form-table">
-                            <tr valign="top">
-                                <th>
-                                    <label for="vi-wpvs-variation_threshold_single_page">
-										<?php esc_html_e( 'Ajax variation threshold', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <input type="number" min="1" max="300" name="variation_threshold_single_page"
-                                           class="vi-wpvs-variation_threshold_single_page"
-                                           id="vi-wvps-variation_threshold_single_page"
-                                           value="<?php echo esc_attr( $variation_threshold_single_page ); ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="vi-wpvs-out_of_stock_variation_disable-checkbox">
-										<?php esc_html_e( 'Disable \'out of stock\' variation items', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <div class="vi-ui toggle checkbox">
-                                        <input type="hidden" name="out_of_stock_variation_disable"
-                                               class="vi-wpvs-out_of_stock_variation_disable"
-                                               value="<?php echo esc_attr( $out_of_stock_variation_disable ); ?>">
-                                        <input type="checkbox" id="vi-wpvs-out_of_stock_variation_disable-checkbox"
-                                               class="vi-wpvs-out_of_stock_variation_disable-checkbox" <?php checked( $out_of_stock_variation_disable, '1' ); ?>><label>
-                                    </div>
-                                    <p class="description">
-										<?php esc_html_e( 'This function does not work for products whose number of variations is greater than the "Ajax variation threshold"', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr valign="top">
-                                <th>
-                                    <label for="vi-wpvs-attribute_double_click-checkbox">
-										<?php esc_html_e( 'Clear on Reselect', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <div class="vi-ui toggle checkbox">
-                                        <input type="hidden" name="attribute_double_click"
-                                               class="vi-wpvs-attribute_double_click"
-                                               value="<?php echo esc_attr( $attribute_double_click ); ?>">
-                                        <input type="checkbox" id="vi-wpvs-attribute_double_click-checkbox"
-                                               class="vi-wpvs-attribute_double_click-checkbox" <?php checked( $attribute_double_click, '1' ); ?>><label>
-                                    </div>
-                                    <p class="description">
-										<?php esc_html_e( 'On single product page, clicking on a selected attribute will deselect it', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="vi-wpvs-single_attr_title-checkbox">
-										<?php esc_html_e( 'Enable attribute title', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <div class="vi-ui toggle checkbox">
-                                        <input type="hidden" name="single_attr_title"
-                                               class="vi-wpvs-single_attr_title"
-                                               value="<?php echo esc_attr( $single_attr_title ); ?>">
-                                        <input type="checkbox" id="vi-wpvs-single_attr_title-checkbox"
-                                               class="vi-wpvs-single_attr_title-checkbox" <?php checked( $single_attr_title, '1' ); ?>><label>
-                                    </div>
-                                    <p class="description">
-										<?php esc_html_e( 'Show attribute title on single product page', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr class="vi-wpvs-single_attr_title-enable <?php echo $single_attr_title ? '' : ' vi-wpvs-hidden' ?>">
-                                <th>
-                                    <label for="vi-wpvs-single_attr_selected-checkbox">
-										<?php esc_html_e( 'Show selected attribute item', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <div class="vi-ui toggle checkbox">
-                                        <input type="hidden" name="single_attr_selected"
-                                               class="vi-wpvs-single_attr_selected"
-                                               value="<?php echo esc_attr( $single_attr_selected ); ?>">
-                                        <input type="checkbox" id="vi-wpvs-single_attr_selected-checkbox"
-                                               class="vi-wpvs-single_attr_selected-checkbox" <?php checked( $single_attr_selected, '1' ); ?>><label>
-                                    </div>
-                                    <p class="description">
-										<?php esc_html_e( 'Display the selected item beside attribute title on single product page', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="vi-wpvs-single-product-align">
-				                        <?php esc_html_e( 'Swatches align', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
-                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label for="vi-wpvs-single-product_list_slider-checkbox">
-				                        <?php esc_html_e( 'Single Swatches slider', 'product-variations-swatches-for-woocommerce' ); ?>
-                                    </label>
-                                </th>
-                                <td>
-                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
-                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
-                                    <p class="description">
-				                        <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'woocommerce-product-variations-swatches' ); ?>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
                     <div class="vi-ui bottom attached tab segment" data-tab="product_list">
                         <table class="form-table">
                             <tbody>
+                            <tr valign="top">
+                                <th>
+                                    <label>
+										<?php esc_html_e( 'Preview', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <div class="field viwpvs-product_list-preview">
+                                        <div class="equal width fields">
+                                            <div class="field">
+                                                <a href="https://1.envato.market/bd0ek" target="_blank">
+                                                    <img src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'product-list-redirect.gif')?>" alt="product-list-redirect.gif">
+                                                </a>
+                                                <label>
+		                                            <?php esc_html_e( 'Choose variation by attribute on the Product List', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </label>
+                                            </div>
+                                            <div class="field">
+                                                <a href="https://1.envato.market/bd0ek" target="_blank">
+                                                    <img src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'product-list-atc.gif')?>" alt="product-list-atc.gif">
+                                                </a>
+                                                <label>
+		                                            <?php esc_html_e( 'Choose variation and add to cart on the Product List', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr valign="top">
                                 <th>
                                     <label>
@@ -1014,45 +1040,14 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                 <li><?php esc_html_e( 'If Product category of a rule is empty, this rule applies to products from all categories', 'product-variations-swatches-for-woocommerce' ); ?></li>
                             </ul>
                         </div>
-                        <table class="form-table vi-wpvs-table">
-                            <thead>
-                            <tr>
-                                <th colspan="2"><?php esc_html_e( 'Conditions(AND)', 'product-variations-swatches-for-woocommerce' ); ?></th>
-                                <th colspan="5"><?php esc_html_e( 'Apply these settings for attributes that match conditions', 'product-variations-swatches-for-woocommerce' ); ?></th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label><?php esc_html_e( 'Attribute name', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Product category', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Display type', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Swatches profile', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Show in product list', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Display style', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                                <td>
-                                    <label><?php esc_html_e( 'Action', 'product-variations-swatches-for-woocommerce' ); ?></label>
-                                </td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="vi-wpvs-rule-custom-attrs-container">
-                                <td colspan="7">
-                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
-                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="viwpvs-custom_attrs-preview">
+                            <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                               target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?>
+                            </a>
+                            <a href="https://1.envato.market/bd0ek" target="_blank">
+                                <img src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'custom-attr.png')?>" alt="custom-attr.png">
+                            </a>
+                        </div>
                     </div>
                     <p class="vi-wpvs-save-wrap">
                         <button type="button" class="vi-wpvs-save vi-ui primary labeled icon button"
@@ -1105,9 +1100,10 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 		}
 		global $vi_wpvs_settings;
 		if ( isset( $_POST['vi-wpvs-reset'] ) ) {
-			$args = json_decode( $this->settings->get_reset_data(), true );
-			update_option( 'vi_woo_product_variation_swatches_params', $args );
-			$vi_wpvs_settings = $args;
+            delete_option('vi_woo_product_variation_swatches_params');
+//			$args = json_decode( $this->settings->get_reset_data(), true );
+//			update_option( 'vi_woo_product_variation_swatches_params', $args );
+			$vi_wpvs_settings = null;
 
 			return;
 		}
@@ -1263,20 +1259,20 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 				unset( $wp_scripts->registered['accordion'] );
 				wp_dequeue_script( 'accordion' );
 			}
-			$scripts = $wp_scripts->registered;
-			foreach ( $scripts as $k => $script ) {
-				preg_match( '/^\/wp-/i', $script->src, $result );
-				if ( count( array_filter( $result ) ) ) {
-					preg_match( '/^(\/wp-content\/plugins|\/wp-content\/themes)/i', $script->src, $result1 );
-					if ( count( array_filter( $result1 ) ) ) {
-						wp_dequeue_script( $script->handle );
-					}
-				} else {
-					if ( $script->handle != 'query-monitor' ) {
-						wp_dequeue_script( $script->handle );
-					}
-				}
-			}
+//			$scripts = $wp_scripts->registered;
+//			foreach ( $scripts as $k => $script ) {
+//				preg_match( '/^\/wp-/i', $script->src, $result );
+//				if ( count( array_filter( $result ) ) ) {
+//					preg_match( '/^(\/wp-content\/plugins|\/wp-content\/themes)/i', $script->src, $result1 );
+//					if ( count( array_filter( $result1 ) ) ) {
+//						wp_dequeue_script( $script->handle );
+//					}
+//				} else {
+//					if ( $script->handle != 'query-monitor' ) {
+//						wp_dequeue_script( $script->handle );
+//					}
+//				}
+//			}
 			wp_dequeue_style( 'eopa-admin-css' );
 			/*Stylesheet*/
 			wp_enqueue_style( 'semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'accordion.min.css', '', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
@@ -1306,6 +1302,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			wp_enqueue_script( 'transition', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'transition.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-js', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-settings.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
 			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
-		}
+			wp_localize_script( 'product-variations-swatches-for-woocommerce-admin-js', 'vi_wpvs_admin_settings', array(
+				'auto_detect_swatches_profile'   => get_option('vi_woo_product_variation_swatches_params','')?'':1,
+			) );
+        }
 	}
 }

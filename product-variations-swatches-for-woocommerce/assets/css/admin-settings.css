@@ -130,29 +130,29 @@ form td .field label {
 div[data-tab="global_attrs"] div {
     text-align: center;
 }
-
-.vi-wpvs-table {
-    text-align: center;
-    border: 1px solid rgba(1, 1, 1, 0.2);
+.viwpvs-custom_attrs-preview{
+    position: relative;
+    cursor: pointer;
 }
-
-.vi-wpvs-table thead tr th {
-    text-align: center;
+.viwpvs-custom_attrs-preview:hover img{
+   opacity: .75;
 }
-
-table.form-table.vi-wpvs-table thead tr:first-child {
-    border-bottom: none;
+.viwpvs-custom_attrs-preview:hover .button{
+    z-index: 2;
 }
-
-table.form-table.vi-wpvs-table thead tr:last-child td:nth-child(2),
-table.form-table.vi-wpvs-table thead tr:first-child th:first-child {
-    border-right: 1px solid rgba(1, 1, 1, 0.2);
+.viwpvs-product_list-preview img{
+    border: 1px solid #ccc;
+    border-radius: 3px;
 }
-
-table.form-table.vi-wpvs-table thead tr {
-    border: 1px solid rgba(1, 1, 1, 0.2);
+.viwpvs-product_list-preview img, .viwpvs-custom_attrs-preview img{
+    max-width: 100%;
 }
-
+.viwpvs-custom_attrs-preview .button{
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    z-index: -1;
+}
 .vi-wpvs-save-wrap {
     position: sticky;
     bottom: 20px;

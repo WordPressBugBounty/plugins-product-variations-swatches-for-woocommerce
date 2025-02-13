@@ -1,5 +1,5 @@
-'use strict';
 jQuery(document).ready(function () {
+    'use strict';
     let vi_wpvs_woo_wrap = jQuery('.wrap');
     if (vi_wpvs_woo_wrap.length > 0) {
         if (vi_wpvs_woo_wrap.hasClass('woocommerce')) {

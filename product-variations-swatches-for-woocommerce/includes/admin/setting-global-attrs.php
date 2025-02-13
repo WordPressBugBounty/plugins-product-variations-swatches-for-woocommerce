@@ -232,6 +232,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 		}
 		$paged                = isset( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 1;// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$keyword              = isset( $_GET['vi_wvps_search'] ) ? strtolower( sanitize_text_field( $_GET['vi_wvps_search'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$viwvps_attr_id              = isset( $_GET['viwvps_attr'] ) ? absint( sanitize_text_field( $_GET['viwvps_attr'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$attribute_taxonomies = wc_get_attribute_taxonomies();
 		?>
         <div class="wrap<?php echo is_rtl() ? esc_attr( ' vi-wpvs-wrap-rtl' ) : ''; ?>">
@@ -241,7 +242,15 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
             </div>
 			<?php
 			if ( $attribute_taxonomies ) {
-				if ( $keyword ) {
+				if ( $viwvps_attr_id) {
+					$attribute_taxonomies_t = array();
+					foreach ( $attribute_taxonomies as $attr ) {
+						if ( $attr->attribute_id == $viwvps_attr_id) {
+							$attribute_taxonomies_t[] = $attr;
+							break;
+						}
+					}
+				}elseif ( $keyword ) {
 					$attribute_taxonomies_t = array();
 					foreach ( $attribute_taxonomies as $attr ) {
 						$check = strtolower( $attr->attribute_label );
@@ -642,20 +651,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 			if ( isset( $wp_scripts->registered['accordion'] ) ) {
 				unset( $wp_scripts->registered['accordion'] );
 				wp_dequeue_script( 'accordion' );
-			}
-			$scripts = $wp_scripts->registered;
-			foreach ( $scripts as $k => $script ) {
-				preg_match( '/^\/wp-/i', $script->src, $result );
-				if ( count( array_filter( $result ) ) ) {
-					preg_match( '/^(\/wp-content\/plugins|\/wp-content\/themes)/i', $script->src, $result1 );
-					if ( count( array_filter( $result1 ) ) ) {
-						wp_dequeue_script( $script->handle );
-					}
-				} else {
-					if ( $script->handle != 'query-monitor' ) {
-						wp_dequeue_script( $script->handle );
-					}
-				}
 			}
 			wp_dequeue_style( 'eopa-admin-css' );
 			/*Stylesheet*/

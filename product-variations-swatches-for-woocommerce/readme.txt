@@ -17,7 +17,7 @@ Product Variations Swatches for WooCommerce is a professional plugin that allows
 
 >[Try the Demo](http://new2new.com/?item=woo-product-variations-swatches "Demo WooCommerce Product Variations Swatches") |[Documents](http://docs.villatheme.com/?item=woo-product-variations-swatches "Documents") |[Pro Version](https://1.envato.market/bd0ek "Pro Version") | [Facebook group](https://www.facebook.com/groups/villatheme "VillaTheme")
 
-[youtube https://www.youtube.com/watch?v=CxK3dYsrbek]
+[youtube https://youtu.be/Swy8rCnZtRQ]
 
 ### Important Notice:
 
@@ -111,7 +111,7 @@ If you use WPML to translate attributes, you only need configure attribute image
 
 - [Project Page](https://villatheme.com)
 - [Documentation](http://docs.villatheme.com/?item=woo-product-variations-swatches)
-- [Report Bugs/Issues](https://villatheme.com/supports)
+- [Report Bugs/Issues](https://villatheme.com/knowledge-base/security-is-our-priority/)
 
 ### MAY BE YOU NEED
 [SUBRE – Product Subscription for WooCommerce](https://bit.ly/subre-product-subscription-for-woo): Convert WooCommerce simple products(physical or downloadable/virtual) to subscription products and allow recurring payments
@@ -207,6 +207,10 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.8 - 2025.02.13**/
+- Updated: Option to use variation swatch images as the default display type
+- Updated: setting swatches on the product edit page
+
 /** 1.1.7 - 2024.12.28**/
 - Updated: Compatible with WC 9.5
 
