@@ -207,6 +207,9 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.9 - 2025.02.14**/
+- Fixed: Error reported by customer
+
 /** 1.1.8 - 2025.02.13**/
 - Updated: Option to use variation swatch images as the default display type
 - Updated: setting swatches on the product edit page
