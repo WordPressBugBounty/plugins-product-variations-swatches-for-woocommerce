@@ -143,6 +143,7 @@ div[data-tab="global_attrs"] div {
 .viwpvs-product_list-preview img{
     border: 1px solid #ccc;
     border-radius: 3px;
+    min-width: 50%;
 }
 .viwpvs-product_list-preview img, .viwpvs-custom_attrs-preview img{
     max-width: 100%;

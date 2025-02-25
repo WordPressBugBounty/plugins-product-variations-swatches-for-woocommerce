@@ -207,6 +207,9 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.9.5 - 2025.02.25**/
+- Fixed: Can not click the 'Save attributes' button
+
 /** 1.1.9 - 2025.02.14**/
 - Fixed: Error reported by customer
 

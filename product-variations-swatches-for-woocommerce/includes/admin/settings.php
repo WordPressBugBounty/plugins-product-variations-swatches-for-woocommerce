@@ -67,7 +67,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                         <a class="item"
                            data-tab="custom_attrs"><?php esc_html_e( 'Custom Attributes', 'product-variations-swatches-for-woocommerce' ); ?></a>
                     </div>
-                    <div class="vi-ui bottom attached tab segment" data-tab="general">
+                    <div class="vi-ui bottom attached tab segment active" data-tab="general">
                         <table class="form-table">
                             <tbody>
                             <tr>
@@ -254,7 +254,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                             </tbody>
                         </table>
                     </div>
-                    <div class="vi-ui bottom attached tab segment active" data-tab="swatches_profile">
+                    <div class="vi-ui bottom attached tab segment" data-tab="swatches_profile">
 						<?php
 						if ( $count_ids ) {
 							for ( $i = 0; $i < $count_ids; $i ++ ) {
@@ -841,7 +841,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                         <div class="equal width fields">
                                             <div class="field">
                                                 <a href="https://1.envato.market/bd0ek" target="_blank">
-                                                    <img src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'product-list-redirect.gif')?>" alt="product-list-redirect.gif">
+                                                    <img loading="lazy" src="https://docs.villatheme.com/wp-content/uploads/2020/03/chon-attribute-2.gif" alt="product-list-redirect.gif">
                                                 </a>
                                                 <label>
 		                                            <?php esc_html_e( 'Choose variation by attribute on the Product List', 'product-variations-swatches-for-woocommerce' ); ?>
@@ -849,7 +849,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                             </div>
                                             <div class="field">
                                                 <a href="https://1.envato.market/bd0ek" target="_blank">
-                                                    <img src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'product-list-atc.gif')?>" alt="product-list-atc.gif">
+                                                    <img loading="lazy" src="https://docs.villatheme.com/wp-content/uploads/2020/03/add-to-cart-2.gif" alt="product-list-atc.gif">
                                                 </a>
                                                 <label>
 		                                            <?php esc_html_e( 'Choose variation and add to cart on the Product List', 'product-variations-swatches-for-woocommerce' ); ?>

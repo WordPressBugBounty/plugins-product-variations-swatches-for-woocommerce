@@ -7,6 +7,7 @@ jQuery(document).ready(function ($) {
         if (!$(this).closest("td").find('.vi-wpvs-attribute-wrap').hasClass('vi-wpvs-hidden')){
             $(this).closest("td").find('.viwpvs_save_attribute').val(1);
         }
+        viwpvs_custom_attribute.showSaveAtributeBtn();
     });
     $(document).on('click','.vi-wpvs-attribute-value-title-wrap', function () {
         if (!$(this).hasClass('vi-wpvs-attribute-value-title-toggle')) {
@@ -25,6 +26,23 @@ jQuery(document).ready(function ($) {
             this.UploadImage();
             this.duplicateItem();
         },
+        showSaveAtributeBtn:function () {
+            if (!$('#product_attributes .save_attributes').length){
+                return;
+            }
+            if (!$('#product_attributes .save_attributes').is(':visible')){
+                $('#product_attributes .save_attributes').show();
+            }
+            if ($('#product_attributes .save_attributes').prop('disabled') || $('#product_attributes .save_attributes').attr('disabled')){
+                $('#product_attributes .save_attributes').removeAttr('disabled');
+            }
+            if ($('#product_attributes .save_attributes').attr('aria-disabled')){
+                $('#product_attributes .save_attributes').removeAttr('aria-disabled');
+            }
+            if ($('#product_attributes .save_attributes').hasClass('disabled')){
+                $('#product_attributes .save_attributes').removeClass('disabled');
+            }
+        },
         editAttribute: function () {
             $('.vi-wpvs-attribute-type select').on('change', function () {
                 let val = $(this).val(),
@@ -37,6 +55,7 @@ jQuery(document).ready(function ($) {
                 }else {
                     $container.find('.vi-wpvs-attribute-value-wrap').addClass('vi-wpvs-hidden');
                 }
+                viwpvs_custom_attribute.showSaveAtributeBtn();
             }).trigger('change');
         },
         duplicateItem: function () {
@@ -72,6 +91,7 @@ jQuery(document).ready(function ($) {
                 wrap.find('.vi_attribute_image').val('');
                 wrap.find('.vi-attribute-image-preview img').attr('src', src_placeholder);
                 $(this).addClass('vi-wpvs-hidden');
+                viwpvs_custom_attribute.showSaveAtributeBtn();
             });
             $('.vi-attribute-image-add-new').unbind().on('click', function (e) {
                 e.preventDefault();
@@ -99,6 +119,7 @@ jQuery(document).ready(function ($) {
                     $('.vi_attribute_image-editing').find('.vi-attribute-image-preview img').attr('src', attachment.url);
                     $('.vi_attribute_image-editing').find('.vi-attribute-image-remove').removeClass('vi-wpvs-hidden');
                     $('.vi_attribute_image-editing').removeClass('vi_attribute_image-editing');
+                    viwpvs_custom_attribute.showSaveAtributeBtn();
                 });
 
                 //Open the uploader dialog
@@ -112,6 +133,7 @@ jQuery(document).ready(function ($) {
             $('.vi-wpvs-color.vi_attribute_colors').off().minicolors({
                 change: function (value, opacity) {
                     $(this).parent().find('.vi-wpvs-color.vi_attribute_colors').css({backgroundColor: value});
+                    viwpvs_custom_attribute.showSaveAtributeBtn();
                 },
                 animationSpeed: 50,
                 animationEasing: 'swing',

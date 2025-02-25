@@ -3,7 +3,7 @@
  * Plugin Name: Product Variations Swatches for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woocommerce-product-variations-swatches
  * Description: Elegant Color, Image, and Button Swatches for WooCommerce product attributes – Elevate Product Variations and Delight Your Customers.
- * Version: 1.1.9
+ * Version: 1.1.9.5
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -21,7 +21,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.9' );
+define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.9.5' );
 /**
  * Return if the premium version is active
  */
