@@ -7,7 +7,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 	protected $settings;
 
 	function __construct() {
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 99 );
 		add_action( 'woocommerce_product_option_terms', array( $this, 'woocommerce_product_option_terms' ),10,3 );
 		add_action( 'woocommerce_after_product_attribute_settings', array( $this, 'after_product_attribute_settings' ),99,2 );

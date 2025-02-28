@@ -207,6 +207,10 @@ If you use WPML to translate attributes, you only need configure attribute image
 == Screenshots ==
 
 == Changelog ==
+/** 1.1.10 - 2025.02.28**/
+- Fixed: Can not show the variation image on swatches
+- Updated: Option to use variation swatch images as default display for products with multiple attributes.
+
 /** 1.1.9.5 - 2025.02.25**/
 - Fixed: Can not click the 'Save attributes' button
 

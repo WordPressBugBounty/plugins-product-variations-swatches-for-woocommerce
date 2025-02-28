@@ -5,7 +5,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA {
 	private $params, $default, $default_color, $data_default,$prefix;
+	protected static $instance = null;
 
+
+	public static function get_instance( $new = false ) {
+		if ( $new || null === self::$instance ) {
+			self::$instance = new self;
+		}
+
+		return self::$instance;
+	}
 	/**
 	 * VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA constructor.
 	 * Init setting
@@ -217,6 +226,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA {
 			'attribute_tooltip_border_color'  => array( '#ccc' ),
 
 			'attribute_display_default'      => 'button',
+			'attribute_variation_img_apply'     => '1',
+			'attribute_variation_img_apply_2'     => 'color',
+			'attribute_variation_img_profile'     => 'vi_wpvs_button_design',
 			'attribute_profile_default'      => '',
 			'out_of_stock_variation_disable' => '',
 			'attribute_double_click'         => '',
@@ -319,4 +331,3 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA {
 	}
 }
 
-new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();

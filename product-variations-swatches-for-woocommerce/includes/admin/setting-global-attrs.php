@@ -8,7 +8,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 	protected $error;
 
 	function __construct() {
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 20 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 99999 );
 		add_action( 'wp_ajax_vi_wvps_save_global_attrs', array( $this, 'save_attr' ) );
@@ -91,7 +91,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 	 * @return mixed
 	 */
 	public function save_screen_options( $status, $option, $value ) {
-		if ( 'vi_wvps_per_page' == $option ) {
+		if ( 'vi_wvps_attrs_per_page' == $option ) {
 			return $value;
 		}
 

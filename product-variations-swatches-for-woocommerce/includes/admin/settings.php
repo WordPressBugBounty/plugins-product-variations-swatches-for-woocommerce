@@ -8,7 +8,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 	protected $error;
 
 	function __construct() {
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 10 );
 		add_action( 'admin_init', array( $this, 'save_settings' ), 100 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), PHP_INT_MAX );
@@ -34,7 +34,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 	}
 
 	public function settings_callback() {
-		$this->settings                  = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
 		$out_of_stock_variation_disable  = $this->settings->get_params( 'out_of_stock_variation_disable' );
 		$attribute_display_default       = $this->settings->get_params( 'attribute_display_default' );
 		$attribute_double_click          = $this->settings->get_params( 'attribute_double_click' );
@@ -77,27 +76,99 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     </label>
                                 </th>
                                 <td>
-                                    <select name="attribute_display_default" id="vi-wpvs-attribute_display_default"
-                                            class="vi-ui fluid dropdown vi-wpvs-attribute_display_default">
-                                        <option value="none" <?php selected( $attribute_display_default, 'none' ) ?>>
-											<?php esc_html_e( 'None', 'product-variations-swatches-for-woocommerce' ); ?>
-                                        </option>
-                                        <option value="variation_img" <?php selected( $attribute_display_default, 'variation_img' ) ?>>
-		                                    <?php esc_html_e( 'Variation Image', 'woocommerce-product-variations-swatches' ); ?>
-                                        </option>
-                                        <option value="button" <?php selected( $attribute_display_default, 'button' ) ?>>
-											<?php esc_html_e( 'Button', 'product-variations-swatches-for-woocommerce' ); ?>
-                                        </option>
-                                        <option value="radio" <?php selected( $attribute_display_default, 'radio' ) ?>>
-											<?php esc_html_e( 'Radio', 'product-variations-swatches-for-woocommerce' ); ?>
-                                        </option>
-                                    </select>
-                                    <p class="description">
-										<?php echo wp_kses_post(__( 'This is used if an attribute is not config yet or no rules are applied. You can design how it is displayed at <a href="#swatches_profile"><strong>Swatches Profile</strong></a>. Please enable the checkbox next to the profile name to apply this as the default display style.', 'product-variations-swatches-for-woocommerce') ); ?>
-                                    </p>
-                                    <p class="description">
-		                                <?php echo wp_kses_post(__( 'If each of your products has a single attribute and already has images assigned to its variations, we highly recommend selecting <strong>Variation Image</strong>.', 'product-variations-swatches-for-woocommerce') ); ?>
-                                    </p>
+                                    <div class="field">
+                                        <div class="equal width fields">
+                                            <div class="field">
+                                                <select name="attribute_display_default" id="vi-wpvs-attribute_display_default"
+                                                        class="vi-ui fluid dropdown vi-wpvs-attribute_display_default">
+                                                    <option value="none" <?php selected( $attribute_display_default, 'none' ) ?>>
+							                            <?php esc_html_e( 'None', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </option>
+                                                    <option value="variation_img" <?php selected( $attribute_display_default, 'variation_img' ) ?>>
+							                            <?php esc_html_e( 'Variation Image', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </option>
+                                                    <option value="button" <?php selected( $attribute_display_default, 'button' ) ?>>
+							                            <?php esc_html_e( 'Button', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </option>
+                                                    <option value="radio" <?php selected( $attribute_display_default, 'radio' ) ?>>
+							                            <?php esc_html_e( 'Radio', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                    </option>
+                                                </select>
+                                                <p class="description">
+						                            <?php echo wp_kses_post(__( 'This is used if an attribute is not config yet or no rules are applied</strong></a>', 'product-variations-swatches-for-woocommerce') ); ?>
+                                                </p>
+                                            </div>
+                                            <div class="field">
+                                                <select name="attribute_profile_default" id="vi-wpvs-attribute_profile_default"
+                                                        class="vi-ui fluid dropdown vi-wpvs-attribute_profile_default">
+						                            <?php
+						                            if($count_ids){
+							                            for ( $i = 0; $i < $count_ids; $i ++ ) {
+								                            ?>
+                                                            <option value="<?php echo esc_attr( $ids[ $i ] ); ?>" <?php selected($attribute_profile_default, $ids[ $i ]) ?>>
+									                            <?php echo wp_kses_post( $this->settings->get_current_setting( 'names', $i )); ?>
+                                                            </option>
+								                            <?php
+							                            }
+						                            }
+						                            ?>
+                                                </select>
+                                                <p class="description">
+						                            <?php echo wp_kses_post(__( 'Design attribute display on the frontend. You can design how it is displayed at <a href="#swatches_profile"><strong>Swatches Profile tab</strong></a>', 'product-variations-swatches-for-woocommerce') ); ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p class="description">
+				                            <?php echo wp_kses_post(__( 'If each of your products has a single attribute and already has images assigned to its variations, we highly recommend selecting <strong>Variation Image</strong>.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                        </p>
+                                    </div>
+                                    <div class="equal width fields vi-wpvs-attribute_display_default-variation_img<?php echo esc_attr($attribute_display_default === 'variation_img'?'':' vi-wpvs-hidden')?>">
+                                        <div class="field">
+                                            <select name="attribute_variation_img_apply" id="vi-wpvs-attribute_variation_img_apply"
+                                                    class="vi-ui fluid dropdown vi-wpvs-attribute_variation_img_apply">
+                                                <option value="1" <?php selected( $attribute_variation_img_apply = $this->settings->get_params('attribute_variation_img_apply'), '1' ) ?>>
+						                            <?php esc_html_e( 'The first attribute', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </option>
+                                                <option value="2" <?php selected( $attribute_variation_img_apply, '2' ) ?>>
+						                            <?php esc_html_e( 'Only the attributes has name in', 'product-variations-swatches-for-woocommerce' ); ?>
+                                                </option>
+                                            </select>
+                                            <p class="description">
+					                            <?php echo wp_kses_post(__( 'The attribute appears as a variation image, while others are shown as buttons.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                            </p>
+                                        </div>
+                                        <div class="field vi-wpvs-attribute_display_default-variation_img-2<?php echo esc_attr($attribute_variation_img_apply === '2'?'':' vi-wpvs-hidden')?>">
+                                            <input type="text" class="vi-wpvs-attribute_variation_img_apply-2"
+                                                   value="<?php echo esc_attr($this->settings->get_params('attribute_variation_img_apply_2'))?>"
+                                                   name="attribute_variation_img_apply_2" placeholder="color|material">
+                                            <p class="description">
+					                            <?php echo wp_kses_post(__( 'Leave empty to apply to all attribute.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                            </p>
+                                            <p class="description">
+					                            <?php echo wp_kses_post(__( 'Use “|” to separate different values.', 'product-variations-swatches-for-woocommerce') ); ?>
+                                            </p>
+                                        </div>
+                                        <div class="field">
+                                            <select name="attribute_variation_img_profile" id="vi-wpvs-attribute_variation_img_profile"
+                                                    class="vi-ui fluid dropdown vi-wpvs-attribute_variation_img_profile">
+					                            <?php
+					                            $attribute_variation_img_profile = $this->settings->get_params('attribute_variation_img_profile');
+					                            if($count_ids){
+						                            for ( $i = 0; $i < $count_ids; $i ++ ) {
+							                            ?>
+                                                        <option value="<?php echo esc_attr( $ids[ $i ] ); ?>" <?php selected($attribute_variation_img_profile, $ids[ $i ]) ?>>
+								                            <?php echo wp_kses_post( $this->settings->get_current_setting( 'names', $i )); ?>
+                                                        </option>
+							                            <?php
+						                            }
+					                            }
+					                            ?>
+                                            </select>
+                                            <p class="description">
+					                            <?php echo wp_kses_post(__( 'Swatches Profile', 'product-variations-swatches-for-woocommerce') ); ?>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -210,7 +281,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     <a class="vi-ui button" href="https://1.envato.market/bd0ek"
                                        target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                     <p class="description">
-			                            <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'woocommerce-product-variations-swatches' ); ?>
+			                            <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'product-variations-swatches-for-woocommerce' ); ?>
                                     </p>
                                 </td>
                             </tr>
@@ -236,7 +307,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                        target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                     <p class="description"><?php esc_html_e( 'For products that have more than 1 attribute, when selecting a value of the first attribute but the current combination is not available, select this value anyway and change selections of other attributes instead', 'product-variations-swatches-for-woocommerce' ); ?>                                    </p>
                                     <p class="description">
-                                        <strong><?php esc_html_e( '*Important: ', 'woocommerce-product-variations-swatches' ); ?></strong><?php esc_html_e( 'To make out-of-stock items clickable, you have to turn off "Disable \'out of stock\' variation items" option', 'product-variations-swatches-for-woocommerce' ); ?>
+                                        <strong><?php esc_html_e( '*Important: ', 'product-variations-swatches-for-woocommerce' ); ?></strong><?php esc_html_e( 'To make out-of-stock items clickable, you have to turn off "Disable \'out of stock\' variation items" option', 'product-variations-swatches-for-woocommerce' ); ?>
                                     </p>
                                 </td>
                             </tr>
@@ -302,14 +373,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                 <div class="vi-ui styled fluid accordion vi-wpvs-accordion-wrap vi-wpvs-accordion-wrap-<?php echo esc_attr( $i ); ?>"
                                      data-accordion_id="<?php echo esc_attr( $i ); ?>">
                                     <div class="woo-wpvs-accordion-info">
-                                        <div class="vi-ui toggle checkbox checked"
-                                             data-tooltip="<?php esc_attr_e( 'Default profile', 'product-variations-swatches-for-woocommerce' ); ?>">
-                                            <input type="radio" name="attribute_profile_default"
-                                                   id="vi-wpvs-attribute_profile_default-<?php echo esc_attr( $ids[ $i ] ); ?>"
-                                                   class="vi-wpvs-attribute_profile_default"
-                                                   value="<?php echo esc_attr( $ids[ $i ] ); ?>" <?php checked( $attribute_profile_default, $ids[ $i ] ) ?>>
-                                            <label for="vi-wpvs-attribute_profile_default-<?php echo esc_attr( $ids[ $i ] ); ?>"></label>
-                                        </div>
                                         <span>
 						                    <h4><span class="vi-wpvs-accordion-name"><?php echo esc_html( $name ); ?></span></h4>
 					                    </span>
@@ -1208,6 +1271,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			);
 			$map_args_2 = array(
 				'attribute_display_default',
+				'attribute_variation_img_apply',
+				'attribute_variation_img_apply_2',
+				'attribute_variation_img_profile',
 				'attribute_double_click',
 				'attribute_profile_default',
 				'out_of_stock_variation_disable',
@@ -1243,6 +1309,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			$args = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
 			update_option( 'vi_woo_product_variation_swatches_params', $args );
 			$vi_wpvs_settings = $args;
+			$this->settings                  = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance(true);
 		}
 	}
 

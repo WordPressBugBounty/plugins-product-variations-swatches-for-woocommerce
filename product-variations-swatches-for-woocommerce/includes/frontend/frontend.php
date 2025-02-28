@@ -7,7 +7,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 	protected $settings;
 
 	public function __construct() {
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ), 99 );
 		add_filter( 'woocommerce_dropdown_variation_attribute_options_html', array(
 			$this,
@@ -167,15 +167,13 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 						'variation_img',
 						'radio',
 						'viwpvs_default'
-					) ) && ! isset( $settings->get_params( 'taxonomy_profiles' )[ $attribute ] ) ) {
-					if ( $settings->get_params( 'attribute_display_default' ) !== 'none' ) {
-						$vi_attribute_type = $settings->get_params( 'attribute_display_default' );
-					}
+					) ) && ! $vi_attribute_profile ) {
+					$vi_attribute_type = self::get_attribute_display_type($attribute,$product,$vi_attribute_profile);
 				}
 			}
 		} else {
-			if ( ! $vi_attribute_type && $settings->get_params( 'attribute_display_default' ) !== 'none' ) {
-				$vi_attribute_type = $settings->get_params( 'attribute_display_default' );
+			if ( ! $vi_attribute_type ) {
+				$vi_attribute_type = self::get_attribute_display_type($attribute,$product,$vi_attribute_profile);
 			}
 		}
 		$options = $args['options'];
@@ -224,7 +222,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		if ( empty( $option ) ) {
 			return '';
 		}
-		$settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		if ( empty( $colors ) ) {
 			$result = $settings->get_default_color( strtolower( $option ) );
 		} else {
@@ -284,11 +282,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		if ( empty( $attribute ) || empty( $product ) || empty( $options ) ) {
 			return false;
 		}
-		$settings                   = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
-		$profile_default            = $settings->get_params( 'attribute_profile_default' );
+		$settings                   = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		$profile_ids                = $settings->get_params( 'ids' );
-		$profile_default_index      = array_search( $profile_default, $profile_ids ) ? array_search( $profile_default, $profile_ids ) : 0;
-		$profile_index              = array_search( $profile, $profile_ids ) ? array_search( $profile, $profile_ids ) : $profile_default_index;
+		$profile_index              = array_search( $profile, $profile_ids ) ? array_search( $profile, $profile_ids ) : 0;
 		$profile                    = $profile_ids[ $profile_index ];
 		$attribute_tooltip_position = $settings->get_current_setting( 'attribute_tooltip_position', $profile_index );
 		$type                       = $type ?: 'select';
@@ -428,13 +424,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
                                  data-attribute_label="<?php echo esc_attr( $term_name ); ?>"
                                  data-attribute_value="<?php echo esc_attr( $term->slug ); ?>">
 								<?php
-								$terms_img_id = '';
-								foreach ( $variations as $variation_id ) {
-									if ( $term->slug === get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true ) ) {
-										$terms_img_id = get_post_thumbnail_id( $variation_id );
-										break;
-									}
-								}
+								$terms_img_id  = self::get_variation_image_id( $variations, $term, $attribute );
 								$img_url      = $terms_img_id ? wp_get_attachment_image_url( $terms_img_id, 'woocommerce_gallery_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
 								$img_loop_src = $terms_img_id ? wp_get_attachment_image_url( $terms_img_id, 'woocommerce_thumbnail', true ) : '';
 								?>
@@ -632,13 +622,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
                                  data-attribute_value="<?php echo esc_attr( $option ); ?>"
                                  data-attribute_label="<?php echo esc_attr( $option_name ); ?>">
 								<?php
-								$option_img = '';
-								foreach ( $variations as $variation_id ) {
-									if ( $option === get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true ) ) {
-										$option_img = get_post_thumbnail_id( $variation_id );
-										break;
-									}
-								}
+								$option_img    = self::get_variation_image_id( $variations, $option, $attribute );
 								$img_url      = $option_img ? wp_get_attachment_image_url( $option_img, 'woocommerce_gallery_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
 								$img_loop_src = $option_img ? wp_get_attachment_image_url( $option_img, 'woocommerce_thumbnail', true ) : '';
 								?>
@@ -735,6 +719,65 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 
 		return $html;
 	}
+	/**
+	 * @param $attribute
+	 * @param $product WC_Product
+	 *
+	 * @return string
+	 */
+	public static function get_attribute_display_type( $attribute, $product, &$profile ) {
+		$type = '';
+		$settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
+		if ( $settings->get_params( 'attribute_display_default' ) !== 'none' ) {
+			$type = $settings->get_params( 'attribute_display_default' );
+		}
+		if ($type !=='variation_img'){
+			return $type;
+		}
+		$profile_default             = $settings->get_params( 'attribute_profile_default' );
+		if (!$profile){
+			$profile = $profile_default;
+		}
+		$attr_apply = $settings->get_params('attribute_variation_img_apply');
+		if ($attr_apply === '2'){
+			$match = explode('|',strtolower($settings->get_params('attribute_variation_img_apply_2')));
+			$attr_name = strtolower(wc_attribute_label($attribute));
+			if (!in_array($attr_name, $match)){
+				$type = 'button';
+				$profile = $settings->get_params('attribute_variation_img_profile');
+			}
+		}else{
+			$attributes = array_keys($product->get_attributes());
+			$index = array_search(strtolower($attribute), $attributes);
+			if ($index !== 0){
+				$type = 'button';
+				$profile = $settings->get_params('attribute_variation_img_profile');
+			}
+		}
+		return $type;
+	}
+    public static function get_variation_image_id( $variations, $term, $attribute, $option_tr='' ) {
+		$terms_img_id = '';
+		if ( is_string( $term ) ) {
+			foreach ( $variations as $variation_id ) {
+				$attribute_ = get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true );
+				if ( $term === $attribute_ || ( $option_tr && $option_tr === $attribute_ ) ) {
+					$terms_img_id = wc_get_product( $variation_id )->get_image_id();
+					break;
+				}
+			}
+		} else {
+			foreach ( $variations as $variation_id ) {
+				$attribute_ = get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true );
+				if ( $term->slug === $attribute_ || ( $option_tr && $option_tr === $attribute_ ) ) {
+					$terms_img_id = wc_get_product( $variation_id )->get_image_id();
+					break;
+				}
+			}
+		}
+
+		return $terms_img_id;
+	}
 
 	public static function get_attribute_taxonomy_type( $attribute = '' ) {
 		if ( ! $attribute ) {
@@ -770,7 +813,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		}
 		wp_localize_script( 'vi-wpvs-frontend-script', 'vi_wpvs_frontend_param', $args_localize );
 
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		$ids            = $this->settings->get_params( 'ids' );
 		if ( $ids && is_array( $ids ) && $count_ids = count( $ids ) ) {
 			$css = '';

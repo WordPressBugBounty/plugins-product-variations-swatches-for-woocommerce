@@ -7,7 +7,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 	protected $settings;
 
 	function __construct() {
-		$this->settings = new VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA();
+		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 99 );
 		add_filter( 'product_attributes_type_selector', array( $this, 'product_attributes_type_selector' ), 10, 1 );
 		add_action( 'woocommerce_after_add_attribute_fields', array(
