@@ -38,6 +38,11 @@ jQuery(document).ready(function ($) {
         });
     });
     viwpvs_frontend_init();
+    jQuery(document).on('flatsome-flickity-ready', function (event) {
+        setTimeout(function () {
+            viwpvs_frontend_init();
+        },500);
+    });
     jQuery(document).on('woodmart-quick-view-displayed', function (event, jqxhr, settings) {
         viwpvs_frontend_init();
     });
@@ -51,8 +56,9 @@ jQuery(document).ready(function ($) {
         Open.apply(this, arguments)
     };
     jQuery(document).on('ajaxComplete', function (event, jqxhr, settings) {
-        viwpvs_frontend_init();
-        return false;
+        setTimeout(function () {
+            viwpvs_frontend_init();
+        }, 100);
     });
 });
 

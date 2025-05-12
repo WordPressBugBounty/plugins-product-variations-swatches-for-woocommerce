@@ -4,10 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
-	protected $settings;
+	protected static $settings;
 
 	function __construct() {
-		$this->settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
+		self::$settings = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 99 );
 		add_action( 'woocommerce_product_option_terms', array( $this, 'woocommerce_product_option_terms' ),10,3 );
 		add_action( 'woocommerce_after_product_attribute_settings', array( $this, 'after_product_attribute_settings' ),99,2 );
@@ -96,7 +96,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 		update_post_meta( $post_id, '_vi_woo_product_variation_swatches_product_attribute', $vi_attribute_settings );
 		return $attribute;
 	}
-	public function after_product_attribute_settings($attribute, $i){
+	public static function after_product_attribute_settings($attribute, $i){
 		global $thepostid;
 		if (!$attribute || !is_a($attribute,'WC_Product_Attribute')){
 			return;
@@ -112,21 +112,24 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Custom_Attribute {
 		if (!is_array($vi_attribute_settings)){
 			$vi_attribute_settings = [];
 		}
-		$vi_wpvs_ids              = $this->settings->get_params( 'ids' );
-		$vi_wpvs_name             = $this->settings->get_params( 'names' );
-		$vi_default_colors        = $this->settings->get_default_color();
+		$vi_wpvs_ids              = self::$settings->get_params( 'ids' );
+		$vi_wpvs_name             = self::$settings->get_params( 'names' );
+		$vi_default_colors        = self::$settings->get_default_color();
 		$attribute_types          = wc_get_attribute_types();
 		include VI_WOO_PRODUCT_VARIATIONS_SWATCHES_TEMPLATES . 'html-product-attribute.php';
 	}
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
 		if ( $screen->id == 'product' ) {
-			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-custom-attribute.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
-			wp_enqueue_script( 'select2', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'select2.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-custom-attribute.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
-			wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
-		}
+            self::enqueue_scripts();
+        }
 	}
+    public static function enqueue_scripts(){
+	    wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'minicolors.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+	    wp_enqueue_style( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'admin-custom-attribute.css', array(), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );
+	    wp_enqueue_script( 'select2', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'select2.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+	    wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-custom-attribute', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'admin-custom-attribute.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+	    wp_enqueue_script( 'product-variations-swatches-for-woocommerce-admin-minicolors', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_JS . 'minicolors.min.js', array( 'jquery' ), VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION, true );
+    }
 
 }

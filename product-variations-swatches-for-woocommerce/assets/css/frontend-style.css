@@ -485,6 +485,7 @@ select option.vi-wpvs-option-disabled {
 }
 
 /* compatible vs WoodMart theme */
+.vi-wpvs-variation-style-content .wd-swatches-product,
 .swatches-select.swatches-on-single {
     display: none !important;
 }

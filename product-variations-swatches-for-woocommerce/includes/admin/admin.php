@@ -39,7 +39,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Admin {
 			new VillaTheme_Support(
 				array(
 					'support'    => 'https://wordpress.org/support/plugin/product-variations-swatches-for-woocommerce/',
-					'docs'       => 'http://docs.villatheme.com/?item=woo-product-variations-swatches',
+					'docs'       => 'https://docs.villatheme.com/?item=woo-product-variations-swatches',
 					'review'     => 'https://wordpress.org/support/plugin/product-variations-swatches-for-woocommerce/reviews/?rate=5#rate-response',
 					'pro_url'    => 'https://1.envato.market/bd0ek',
 					'css'        => VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS,

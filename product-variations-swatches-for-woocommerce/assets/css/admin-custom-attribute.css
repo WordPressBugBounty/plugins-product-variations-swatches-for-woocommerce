@@ -24,11 +24,22 @@
     text-decoration: none;
 }
 
+.viwpvs-dokan-setting-wrap select{
+    height: 35px;
+    border: 1px solid #EDEDED;
+    padding: 4px 6px;
+    border-radius: 0;
+    color: #555555;
+    line-height: 20px;
+    font-size: 14px;
+}
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  {
     width: 100%;
     position: relative;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap {
     display: inline-flex;
     align-items: center;
@@ -40,6 +51,7 @@
     flex-wrap: wrap;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap .vi-wpvs-attribute-info-custom-open ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap .vi-wpvs-attribute-info-custom-open {
     display: inline-flex;
     align-items: center;
@@ -47,18 +59,22 @@
     justify-content: center;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap > div,
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap > label,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap > div,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-info-wrap > label {
     margin-right: 10px;
     margin-bottom: 5px;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value {
     clear: both;
     margin-top: 10px;
     margin-bottom: 5px;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap {
     background: #f1f1f1;
     cursor: pointer;
@@ -70,6 +86,7 @@
     align-items: center;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap .vi-wpvs-attribute-value-action-wrap ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap .vi-wpvs-attribute-value-action-wrap {
     /*float: right;*/
     font-weight: 400;
@@ -78,13 +95,16 @@
     text-decoration: none;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap .vi-wpvs-attribute-value-name ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-title-wrap .vi-wpvs-attribute-value-name {
     font-weight: 600;
 }
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap {
     transition: height, margin, padding 200ms;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap.vi-wpvs-attribute-value-content-open,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap.vi-wpvs-attribute-value-content-open {
     display: block;
     height: auto;
@@ -92,6 +112,7 @@
     margin-top: 10px;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap.vi-wpvs-attribute-value-content-close,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap  .vi-wpvs-attribute-value-content-wrap.vi-wpvs-attribute-value-content-close {
     height: 0;
     padding-top: 0;
@@ -102,16 +123,22 @@
     display: none;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap table ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap table {
     padding: 0;
     border-radius: 3px;
     border: none;
 }
 
+.viwpvs-dokan-setting-wrap .vi_attribute_color_separator ,
 .wc-metaboxes-wrapper#product_attributes .vi_attribute_color_separator {
     width: auto !important;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap table.vi-wpvs-attribute-value-content-color-table,
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value-content-color-table tr,
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value-content-color-table th,
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value-content-color-table td,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap table.vi-wpvs-attribute-value-content-color-table,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value-content-color-table tr,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap .vi-wpvs-attribute-value-content-color-table th,
@@ -123,6 +150,7 @@
     padding: 5px;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap table td ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap table td {
     padding: 10px 5px;
     vertical-align: middle;
@@ -198,6 +226,7 @@
     color: #bdbcbc;
 }
 
+.viwpvs-dokan-setting-wrap .vi-wpvs-attribute-wrap .vi-attribute-name ,
 .wc-metaboxes-wrapper#product_attributes .vi-wpvs-attribute-wrap .vi-attribute-name {
     max-width: 100%;
     min-width: 50px;

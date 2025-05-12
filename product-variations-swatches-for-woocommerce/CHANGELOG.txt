@@ -1,3 +1,6 @@
+/** 1.1.11 - 2025.05.12**/
+- Updated: Compatible with Dokan - vendors can easily edit product swatches from the product edit page on their vendor dashboard
+
 /** 1.1.10 - 2025.02.28**/
 - Fixed: Can not show the variation image on swatches
 - Updated: Option to use variation swatch images as default display for products with multiple attributes.
