@@ -312,7 +312,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
                                     <label>
 										<?php esc_html_e( 'Show in product list', 'product-variations-swatches-for-woocommerce' ); ?>
                                     </label>
-                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                    <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
                                        target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                 </div>
                                 <div class="field">
@@ -364,7 +364,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
                                     <label>
 			                            <?php esc_html_e( 'Change product image', 'product-variations-swatches-for-woocommerce' ); ?>
                                     </label>
-                                    <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                    <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
                                        target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
                                 </div>
                             </div>
@@ -406,7 +406,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
                                     <tbody>
                                     <tr>
                                         <td colspan="6">
-                                            <a class="vi-ui button" href="https://1.envato.market/bd0ek"
+                                            <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
                                                target="_blank">
 												<?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?>
                                             </a>

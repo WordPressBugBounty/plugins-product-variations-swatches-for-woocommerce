@@ -13,6 +13,18 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Compatible_Dokan {
     public function save_swatches_settings(){
 	    $post_id = isset( $_POST['post_id'] ) ? (int) sanitize_text_field(wp_unslash($_POST['post_id'])) :0;//phpcs:ignore WordPress.Security.NonceVerification.Missing
         parse_str($_POST['data']??'', $data );
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $data['viwpvs_nonce'] ) ), 'viwpvs-dokan-save-attributes' ) ) {
+            return;
+        }
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+        if ( function_exists( 'dokan_get_vendor_by_product' ) ) {
+            $vendor_id = dokan_get_vendor_by_product( $post_id, true );
+            if ($vendor_id && (int) $vendor_id !== get_current_user_id() && ! current_user_can( 'manage_woocommerce' )) {
+                return;
+            }
+        }
 	    if ( !$post_id || empty($data['viwpvs_save_attribute']) || !is_array($data['viwpvs_save_attribute'])) {
 		    return;
 	    }
@@ -54,6 +66,10 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Compatible_Dokan {
 	    update_post_meta( $post_id, '_vi_woo_product_variation_swatches_product_attribute', $vi_attribute_settings );
     }
 	public function swatches_settings(){
+        check_ajax_referer( 'load-variations', 'security' );
+        if ( ! current_user_can( 'dokandar' ) || empty( $_POST['product_id'] ) || empty( $_POST['attributes'] ) ) {
+            die( -1 );
+        }
 		if (empty( $_POST['product_id'] ) || !empty(self::$cache['swatches_settings'])){
 			return;
 		}

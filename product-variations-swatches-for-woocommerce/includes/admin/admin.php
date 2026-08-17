@@ -41,7 +41,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Admin {
 					'support'    => 'https://wordpress.org/support/plugin/product-variations-swatches-for-woocommerce/',
 					'docs'       => 'https://docs.villatheme.com/?item=woo-product-variations-swatches',
 					'review'     => 'https://wordpress.org/support/plugin/product-variations-swatches-for-woocommerce/reviews/?rate=5#rate-response',
-					'pro_url'    => 'https://1.envato.market/bd0ek',
+					'pro_url'    => 'https://villatheme.com/extensions/woocommerce-product-variations-swatches/',
 					'css'        => VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS,
 					'image'      => VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES,
 					'slug'       => 'product-variations-swatches-for-woocommerce',

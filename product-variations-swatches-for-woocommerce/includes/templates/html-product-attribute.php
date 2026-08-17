@@ -35,10 +35,13 @@ $need_edit = ($vi_attribute_type || $vi_attribute_profile )? 1:0;
 		    <?php esc_html_e(' to configure settings specifically for this product.', 'product-variations-swatches-for-woocommerce' ); ?>
         </p>
         <div class="vi-wpvs-attribute-wrap<?php echo esc_attr($need_edit?'' :' vi-wpvs-hidden')?>">
+
+            <?php wp_nonce_field('viwpvs-dokan-save-attributes', 'viwpvs_nonce'); ?>
+
             <div class="vi-wpvs-attribute-info-wrap vi-wpvs-attribute-info-custom-wrap">
                 <div class="vi-wpvs-attribute-loop-enable">
                     <a class="button button-primary" disabled target="_blank"
-                       href="https://1.envato.market/bd0ek">
+                       href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/">
 		                <?php esc_html_e( 'Show in product list - Premium version only', 'product-variations-swatches-for-woocommerce' ); ?>
                     </a>
                 </div>
@@ -89,7 +92,7 @@ $need_edit = ($vi_attribute_type || $vi_attribute_profile )? 1:0;
                 <div class="vi-wpvs-change-product-image"
                      title="<?php echo esc_html__( 'When selecting an attribute value, change product image according to attribute/variation image(Only use for Image/Variation image type)', 'product-variations-swatches-for-woocommerce' ) ?>">
                     <a class="button button-primary" disabled target="_blank"
-                       href="https://1.envato.market/bd0ek">
+                       href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/">
 		                <?php esc_html_e( 'Show in product list - Premium version only', 'product-variations-swatches-for-woocommerce' ); ?>
                     </a>
                 </div>
