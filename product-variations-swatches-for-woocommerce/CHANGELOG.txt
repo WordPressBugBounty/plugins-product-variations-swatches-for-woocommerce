@@ -1,5 +1,9 @@
 *** Product Variations Swatches for WooCommerce Changelog ***
 
+2026.08.25 - version 1.1.19
+- Updated: VillaTheme support
+- Updated: Compatibility check with WP 7.1
+
 2026.08.17 - version 1.1.18
 - Updated: Compatibility check with WC 11.0
 - Updated: Optimize code

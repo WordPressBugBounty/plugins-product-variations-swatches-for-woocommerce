@@ -3,10 +3,10 @@ Contributors: villatheme, mrt3vn
 Donate link: http://www.villatheme.com/donate
 Tags: ecommerce, variation swatches for woocommerce, woocommerce, woocommerce swatches, woocommerce variation swatches
 Requires at least: 5.0
-Requires PHP: 7.0
+Requires PHP: 7.4
 WC requires at least: 7.0
 WC tested up to: 11.0.0
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: trunk
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -244,6 +244,10 @@ If you use WPML to translate attributes, you only need configure attribute image
 2. Swatches on single product page
 
 == Changelog ==
+2026.08.25 - version 1.1.19
+- Updated: VillaTheme support
+- Updated: Compatibility check with WP 7.1
+
 2026.08.17 - version 1.1.18
 - Updated: Compatibility check with WC 11.0
 - Updated: Optimize code

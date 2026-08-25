@@ -44,7 +44,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 		$ids                             = $this->settings->get_params( 'ids' );
 		$count_ids                       = is_array( $ids ) ? count( $ids ) : 0;
 		$count_ids                       = $count_ids > 3 ? 3 : $count_ids;
-		$attribute_profile_default       = $attribute_profile_default ?: $ids[0];
+		$attribute_profile_default       = $attribute_profile_default ?: ( ( is_array( $ids ) && isset( $ids[0] ) ) ? $ids[0] : '' );
 		?>
         <div class="wrap">
             <h2 class=""><?php esc_html_e( 'Product Variations Swatches for WooCommerce', 'product-variations-swatches-for-woocommerce' ) ?></h2>
@@ -97,7 +97,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                                     </option>
                                                 </select>
                                                 <p class="description">
-						                            <?php echo wp_kses_post(__( 'This is used if an attribute is not config yet or no rules are applied</strong></a>', 'product-variations-swatches-for-woocommerce') ); ?>
+						                            <?php echo wp_kses_post(__( 'This is used if an attribute is not config yet or no rules are applied', 'product-variations-swatches-for-woocommerce') ); ?>
                                                 </p>
                                             </div>
                                             <div class="field vi-wpvs-attribute_profile_default-wrap<?php echo esc_attr($attribute_display_default !== 'none'?'':' vi-wpvs-hidden')?>">
@@ -1193,6 +1193,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
             delete_option('vi_woo_product_variation_swatches_params');
 //			$args = json_decode( $this->settings->get_reset_data(), true );
 //			update_option( 'vi_woo_product_variation_swatches_params', $args );
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			$vi_wpvs_settings = null;
 
 			return;
@@ -1213,34 +1214,47 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 		}
 		if ( isset( $_POST['vi-wpvs-import-choose_file'] ) ) {
 			if ( ! isset( $_FILES['vi_wpvs_import_file'] ) ) {
-				$this->error = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
 			if ( ! empty( $_FILES['vi_wpvs_import_file']['error'] ) ) {
-				$this->error = __( 'File is error.', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'File is error.', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
 			$import      = $_FILES['vi_wpvs_import_file'];// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$import_type = strtolower( pathinfo( $import['name'], PATHINFO_EXTENSION ) );
 			if ( $import_type !== 'csv' ) {
-				$this->error = __( 'Please select the csv file', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'Please select the csv file', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
 			$file_content = file_get_contents( $import['tmp_name'] );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			if ( ! $file_content ) {
-				$this->error = __( 'File is empty.', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'File is empty.', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
 			if ( strpos( $file_content, 'check_swatches_settings' ) === false ) {
-				$this->error = __( 'There isn\'t Swatches Settings. Please select the another', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'There isn\'t Swatches Settings. Please select the another', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			$vi_wpvs_settings = json_decode( $file_content, true );
+			if ( ! is_array( $vi_wpvs_settings ) ) {
+				$this->error = esc_html__( 'Invalid settings file.', 'product-variations-swatches-for-woocommerce' );
+
+				return;
+			}
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+			$vi_wpvs_settings = vi_wpvs_sanitize_fields( $vi_wpvs_settings );
+			if ( ! is_array( $vi_wpvs_settings ) ) {
+				$this->error = esc_html__( 'Invalid settings file.', 'product-variations-swatches-for-woocommerce' );
+
+				return;
+			}
 			update_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings );
 
 			return;
@@ -1312,13 +1326,14 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			);
 			$args       = array();
 			foreach ( $map_args_1 as $item ) {
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, 	WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$args[ $item ] = isset( $_POST[ $item ] ) ? vi_wpvs_sanitize_fields( $_POST[ $item ] ) : array();
 			}
 			foreach ( $map_args_2 as $item ) {
-				$args[ $item ] = isset( $_POST[ $item ] ) ? sanitize_text_field( stripslashes( $_POST[ $item ] ) ) : '';
+				$args[ $item ] = isset( $_POST[ $item ] ) ? sanitize_text_field( wp_unslash( $_POST[ $item ] ) ) : '';
 			}
 			if ( ! count( $args['names'] ) ) {
-				$this->error = esc_html__( 'Can not remove all Countdown timer settings.', 'product-variations-swatches-for-woocommerce' );
+				$this->error = esc_html__( 'Can not remove all Swatches settings.', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			} else {
@@ -1337,6 +1352,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 			}
 			$args = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
 			update_option( 'vi_woo_product_variation_swatches_params', $args );
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			$vi_wpvs_settings = $args;
 			$this->settings                  = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance(true);
 		}

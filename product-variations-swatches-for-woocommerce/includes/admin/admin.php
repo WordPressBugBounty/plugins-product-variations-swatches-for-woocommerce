@@ -27,6 +27,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Admin {
 	}
 
 	public function load_plugin_textdomain() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'product-variations-swatches-for-woocommerce' );
 		load_textdomain( 'product-variations-swatches-for-woocommerce', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_LANGUAGES . "product-variations-swatches-for-woocommerce-$locale.mo" );
 		load_plugin_textdomain( 'product-variations-swatches-for-woocommerce', false, VI_WOO_PRODUCT_VARIATIONS_SWATCHES_LANGUAGES );

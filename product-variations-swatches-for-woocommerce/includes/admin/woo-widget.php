@@ -54,7 +54,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Woo_Widget {
 									   target="_blank">
 										<img class="aligncenter wp-image-72516 size-full lazyloaded"
 										     src="<?php echo esc_url(VI_WOO_PRODUCT_VARIATIONS_SWATCHES_IMAGES.'woo-widget.gif');?>"
-										     data-src="<?php ?>"
 										     alt="WooCommerce Product Variation Swatches - WooCommerce Filter Widgets" width="616" height="275">
 									</a>
 								</td>
