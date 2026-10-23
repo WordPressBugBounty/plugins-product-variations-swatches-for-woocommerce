@@ -245,7 +245,7 @@ If you use WPML to translate attributes, you only need configure attribute image
 
 == Changelog ==
 2026.08.25 - version 1.1.19
-- Updated: VillaTheme support
+- Updated: Update security
 - Updated: Compatibility check with WP 7.1
 
 2026.08.17 - version 1.1.18
