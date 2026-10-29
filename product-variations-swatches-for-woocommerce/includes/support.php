@@ -6,12 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'VillaTheme_Support' ) ) {
     /**
      * Class VillaTheme_Support
-     * 1.1.21
+     * 1.1.22
      */
     class VillaTheme_Support {
         protected $plugin_base_name;
         protected $ads_data = null;
-        protected $version = '1.1.21';
+        protected $version = '1.1.22';
         protected $data = [];
 
         public function __construct( $data ) {
@@ -137,7 +137,7 @@ if ( ! class_exists( 'VillaTheme_Support' ) ) {
                                         '&#8220;',
                                         '&#8243;',
                                         '„',
-                                ), '"', $match[1] ) );
+                                ), '"', $match[1] ), ENT_COMPAT );
                                 if ( $is_ads ) {
                                     $json = '{' . $json . '}';
                                 } else {
@@ -442,8 +442,8 @@ if ( ! class_exists( 'VillaTheme_Support' ) ) {
          * Hide notices
          */
         public function hide_notices() {
-//            $raw_nonce         = $_GET['_villatheme_nonce'] ?? '';
-            $_villatheme_nonce = isset( $_GET['_villatheme_nonce'] ) && is_string( $_GET['_villatheme_nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_villatheme_nonce'] ) ) : '';
+            $raw_nonce         = $_GET['_villatheme_nonce'] ?? '';
+            $_villatheme_nonce = sanitize_text_field( wp_unslash( is_string( $raw_nonce ) ? $raw_nonce : '' ) );
             if ( $_villatheme_nonce === '' ) {
                 return;
             }

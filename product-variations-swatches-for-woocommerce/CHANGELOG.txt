@@ -1,7 +1,21 @@
-*** Product Variations Swatches for WooCommerce Changelog ***
+*** Choosly – Product Variations Swatches for WooCommerce Changelog ***
+
+2026.10.29 - version 1.1.20
+- Fixed: Global Attributes admin pagination
+- Fixed: Escape selected attribute label / separator in frontend JS
+- Updated: Sanitize CSS colors for swatches / inline styles
+- Updated: Capability check when saving product attribute swatches
+- Updated: Frontend assets enqueue only on WooCommerce pages
+- Updated: Variation image lookup map per attribute
+- Updated: Settings option saved with autoload disabled
+- Updated: Rename data-our_of_stock → data-out_of_stock
+- Updated: Minimum WordPress version 6.0
+- Updated: WooCommerce admin script handles (Select2) for WC 10.3+
+- Updated: Read product attribute swatch settings when meta is already stored as an array
+- Updated: Plugin translations use determine_locale() and the standard languages folder path
 
 2026.08.25 - version 1.1.19
-- Updated: Update security
+- Updated: VillaTheme support
 - Updated: Compatibility check with WP 7.1
 
 2026.08.17 - version 1.1.18

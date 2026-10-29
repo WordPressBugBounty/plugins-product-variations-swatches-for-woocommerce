@@ -62,6 +62,24 @@ if ( ! function_exists( 'woocommerce_version_check' ) ) {
 		return false;
 	}
 }
+
+/**
+ * Resolve WooCommerce script handle across WC 6.0–latest (WC 10.3+ uses wc-prefixed handles).
+ *
+ * @param string $new_handle    Prefixed handle (e.g. wc-select2).
+ * @param string $legacy_handle Legacy handle (e.g. select2).
+ *
+ * @return string
+ */
+if ( ! function_exists( 'vi_wpvs_wc_script_handle' ) ) {
+	function vi_wpvs_wc_script_handle( $new_handle, $legacy_handle ) {
+		if ( wp_script_is( $new_handle, 'registered' ) ) {
+			return $new_handle;
+		}
+
+		return $legacy_handle;
+	}
+}
 if ( ! function_exists( 'vi_wpvs_sanitize_fields' ) ) {
     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
 	function vi_wpvs_sanitize_fields( $data ) {
@@ -80,6 +98,36 @@ if ( ! function_exists( 'vi_wpvs_sanitize_css_value' ) ) {
 		$value = is_scalar( $value ) ? (string) $value : '';
 
 		return str_replace( array( "\n", "\r", '{', '}', '<', '>', '"', "'" ), '', $value );
+	}
+}
+if ( ! function_exists( 'vi_wpvs_sanitize_css_color' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
+	/**
+	 * Sanitize a CSS color or simple gradient background value.
+	 *
+	 * @param mixed $value Raw color / gradient string.
+	 *
+	 * @return string
+	 */
+	function vi_wpvs_sanitize_css_color( $value ) {
+		$value = is_scalar( $value ) ? trim( (string) $value ) : '';
+		if ( '' === $value ) {
+			return '';
+		}
+		if ( preg_match( '/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^rgba?\(\s*[\d.]+\s*,\s*[\d.]+\s*,\s*[\d.]+(?:\s*,\s*[\d.]+)?\s*\)$/', $value ) ) {
+			return $value;
+		}
+		if ( preg_match( '/^[a-zA-Z]+$/', $value ) ) {
+			return strtolower( $value );
+		}
+		if ( 0 === stripos( $value, 'linear-gradient(' ) ) {
+			return vi_wpvs_sanitize_css_value( $value );
+		}
+
+		return vi_wpvs_sanitize_css_value( $value );
 	}
 }
 

@@ -40,7 +40,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 		$args ['taxonomy_profiles']                               = $taxonomy_profiles;
 		$args ['taxonomy_display_type']                           = $taxonomy_display_type;
 		$args                                                     = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
-		update_option( 'vi_woo_product_variation_swatches_params', $args );
+        update_option( 'vi_woo_product_variation_swatches_params', $args, false );
         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		$vi_wpvs_settings = $args;
 	}
@@ -62,7 +62,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Global_Attributes {
 		$args ['taxonomy_profiles']                               = $taxonomy_profiles;
 		$args ['taxonomy_display_type']                           = $taxonomy_display_type;
 		$args                                                     = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
-		update_option( 'vi_woo_product_variation_swatches_params', $args );
+        update_option( 'vi_woo_product_variation_swatches_params', $args, false );
         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		$vi_wpvs_settings = $args;
 	}

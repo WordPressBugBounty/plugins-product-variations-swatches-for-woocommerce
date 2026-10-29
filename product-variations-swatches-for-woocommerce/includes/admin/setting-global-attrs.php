@@ -52,7 +52,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 		$taxonomy_display_type[ 'pa_' . $slug ] = $display_type;
 		$args ['taxonomy_display_type']         = $taxonomy_display_type;
 		$args                                   = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
-		update_option( 'vi_woo_product_variation_swatches_params', $args );
+        update_option( 'vi_woo_product_variation_swatches_params', $args, false );
         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 		$vi_wpvs_settings = $args;
 
@@ -244,14 +244,18 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 	}
 
 	public function settings_callback() {
-		$user     = get_current_user_id();
-		$screen   = get_current_screen();
+		$user   = get_current_user_id();
+		$screen = get_current_screen();
+		if ( ! $screen ) {
+			return;
+		}
 		$option   = $screen->get_option( 'per_page', 'option' );
 		$per_page = get_user_meta( $user, $option, true );
-		if ( empty ( $per_page ) || $per_page < 1 ) {
+		if ( empty( $per_page ) || $per_page < 1 ) {
 			$per_page = $screen->get_option( 'per_page', 'default' );
 		}
-		$paged                = isset( $_GET['paged'] ) ? sanitize_text_field( wp_unslash( $_GET['paged'] ) ) : 1;// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$per_page             = max( 1, absint( $per_page ) );
+		$paged                = isset( $_GET['paged'] ) ? max( 1, absint( sanitize_text_field( wp_unslash( $_GET['paged'] ) ) ) ) : 1;// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$keyword              = isset( $_GET['vi_wvps_search'] ) ? strtolower( sanitize_text_field( wp_unslash($_GET['vi_wvps_search']) ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$viwvps_attr_id              = isset( $_GET['viwvps_attr'] ) ? absint( sanitize_text_field( wp_unslash($_GET['viwvps_attr']) ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$attribute_taxonomies = wc_get_attribute_taxonomies();
@@ -282,18 +286,21 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Setting_Global_Attrs {
 				} else {
 					$attribute_taxonomies_t = $attribute_taxonomies;
 				}
-				$count_taxonomies = ! empty( $attribute_taxonomies_t ) ? count( $attribute_taxonomies_t ) : 1;
-				$total_page       = ceil( $count_taxonomies / $per_page );
+				$count_taxonomies = is_array( $attribute_taxonomies_t ) ? count( $attribute_taxonomies_t ) : 0;
+				$total_page       = max( 1, (int) ceil( max( $count_taxonomies, 1 ) / $per_page ) );
+				if ( $paged > $total_page ) {
+					$paged = $total_page;
+				}
 				/*Previous page*/
-				$p_paged = $per_page * $paged > $per_page ? $paged - 1 : 0;
+				$p_paged = $paged > 1 ? $paged - 1 : 0;
 				/* next page */
-				$n_paged = $per_page * $paged < $count_taxonomies ? $paged + 1 : 0;
+				$n_paged = ( $paged * $per_page ) < $count_taxonomies ? $paged + 1 : 0;
 				ob_start();
 				$this->get_pagination_html( 'woocommerce-product-variations-swatches-global-attrs', $keyword, $paged, $p_paged, $n_paged, $total_page );
 				$pagination_html = ob_get_clean();
 				echo wp_kses( $pagination_html, VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::extend_post_allowed_html() );
 				wp_nonce_field( 'vi_wvps_global_attrs_action', '_vi_wvps_global_attrs_nonce' );
-				$global_attrs              = array_slice( $attribute_taxonomies_t, $p_paged * $per_page, $paged * $per_page );
+				$global_attrs              = array_slice( $attribute_taxonomies_t, ( $paged - 1 ) * $per_page, $per_page );
 				$vi_wpvs_ids               = $this->settings->get_params( 'ids' );
 				$vi_wpvs_names             = $this->settings->get_params( 'names' );
 				$vi_attribute_profiles     = $this->settings->get_params( 'taxonomy_profiles' );

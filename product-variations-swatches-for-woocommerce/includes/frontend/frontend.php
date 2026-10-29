@@ -235,7 +235,9 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		if ( empty( $colors ) ) {
 			$result = $settings->get_default_color( strtolower( $option ) );
 		} else {
-			if ( ( $count_colors = count( $colors ) ) === 1 ) {
+			$count_colors = count( $colors );
+			$colors       = array_map( 'vi_wpvs_sanitize_css_color', $colors );
+			if ( $count_colors === 1 ) {
 				$result = $colors[0];
 				$result = $result ?: $settings->get_default_color( strtolower( $option ) );
 			} else {
@@ -284,7 +286,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 			}
 		}
 
-		return $result;
+		return vi_wpvs_sanitize_css_color( $result );
 	}
 
 	public static function get_attribute_option_html( $attribute, $product, $options, $vi_attribute_settings, $vi_args, $type, $profile, $use_taxonomy_type = '' ) {
@@ -293,7 +295,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		}
 		$settings                   = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance();
 		$profile_ids                = $settings->get_params( 'ids' );
-		$profile_index              = array_search( $profile, $profile_ids ) ? array_search( $profile, $profile_ids ) : 0;
+		$profile_found              = is_array( $profile_ids ) ? array_search( $profile, $profile_ids, true ) : false;
+		$profile_index              = ( false !== $profile_found ) ? $profile_found : 0;
 		$profile                    = $profile_ids[ $profile_index ];
 		$attribute_tooltip_position = $settings->get_current_setting( 'attribute_tooltip_position', $profile_index );
 		$type                       = $type ?: 'select';
@@ -313,7 +316,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		ob_start();
 		?>
         <div class="<?php echo esc_attr( trim( $div_class ) ); ?>"
-             data-our_of_stock="<?php echo esc_attr( $settings->get_current_setting( 'attribute_out_of_stock', $profile_index ) ) ?>"
+             data-out_of_stock="<?php echo esc_attr( $settings->get_current_setting( 'attribute_out_of_stock', $profile_index ) ) ?>"
              data-attribute="attribute_<?php echo esc_attr( sanitize_title( $attribute ) ); ?>">
 			<?php
 			$variations = $product->get_children();
@@ -782,27 +785,36 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 		return $type;
 	}
     public static function get_variation_image_id( $variations, $term, $attribute, $option_tr='' ) {
-		static $cache = array();
-		$term_key  = is_string( $term ) ? $term : ( isset( $term->slug ) ? $term->slug : '' );
-		$cache_key = md5( wp_json_encode( $variations ) . '|' . $attribute . '|' . $term_key . '|' . $option_tr );
-		if ( isset( $cache[ $cache_key ] ) ) {
-			return $cache[ $cache_key ];
-		}
-		$terms_img_id = '';
-		$compare      = is_string( $term ) ? $term : $term_key;
-		foreach ( (array) $variations as $variation_id ) {
-			$attribute_ = get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true );
-			if ( $compare === $attribute_ || ( $option_tr && $option_tr === $attribute_ ) ) {
-				$variation = wc_get_product( $variation_id );
-				if ( $variation ) {
-					$terms_img_id = $variation->get_image_id();
+		static $maps = array();
+		$map_key     = md5( wp_json_encode( array_map( 'absint', (array) $variations ) ) . '|' . $attribute );
+		if ( ! isset( $maps[ $map_key ] ) ) {
+			$map = array();
+			foreach ( (array) $variations as $variation_id ) {
+				$variation_id = absint( $variation_id );
+				if ( ! $variation_id ) {
+					continue;
 				}
-				break;
+				$attribute_ = get_post_meta( $variation_id, 'attribute_' . sanitize_title( $attribute ), true );
+				if ( '' === $attribute_ || false === $attribute_ ) {
+					continue;
+				}
+				if ( isset( $map[ $attribute_ ] ) ) {
+					continue;
+				}
+				$variation = wc_get_product( $variation_id );
+				$map[ $attribute_ ] = $variation ? $variation->get_image_id() : '';
 			}
+			$maps[ $map_key ] = $map;
 		}
-		$cache[ $cache_key ] = $terms_img_id;
+		$compare = is_string( $term ) ? $term : ( isset( $term->slug ) ? $term->slug : '' );
+		if ( isset( $maps[ $map_key ][ $compare ] ) ) {
+			return $maps[ $map_key ][ $compare ];
+		}
+		if ( $option_tr && isset( $maps[ $map_key ][ $option_tr ] ) ) {
+			return $maps[ $map_key ][ $option_tr ];
+		}
 
-		return $terms_img_id;
+		return '';
 	}
 
 	public static function get_attribute_taxonomy_type( $attribute = '' ) {
@@ -825,6 +837,12 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 
 	public function wp_enqueue_scripts() {
 		if ( is_admin() ) {
+			return;
+		}
+		$should_enqueue = function_exists( 'is_woocommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+		$should_enqueue = (bool) apply_filters( 'viwpvs_should_enqueue_frontend', $should_enqueue );
+		if ( ! $should_enqueue ) {
 			return;
 		}
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
@@ -857,18 +875,18 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 				$attribute_width      = $this->settings->get_current_setting( 'attribute_width', $i );
 				$attribute_transition = $this->settings->get_current_setting( 'attribute_transition', $i );
 
-				$default_box_shadow_color = $this->settings->get_current_setting( 'attribute_default_box_shadow_color', $i );
-				$default_border_color     = $this->settings->get_current_setting( 'attribute_default_border_color', $i );
+				$default_box_shadow_color = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_default_box_shadow_color', $i ) );
+				$default_border_color     = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_default_border_color', $i ) );
 				$default_border_width     = $this->settings->get_current_setting( 'attribute_default_border_width', $i );
 
 				$hover_scale            = $this->settings->get_current_setting( 'attribute_hover_scale', $i );
-				$hover_box_shadow_color = $this->settings->get_current_setting( 'attribute_hover_box_shadow_color', $i );
-				$hover_border_color     = $this->settings->get_current_setting( 'attribute_hover_border_color', $i );
+				$hover_box_shadow_color = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_hover_box_shadow_color', $i ) );
+				$hover_border_color     = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_hover_border_color', $i ) );
 				$hover_border_width     = $this->settings->get_current_setting( 'attribute_hover_border_width', $i );
 
 				$selected_scale            = $this->settings->get_current_setting( 'attribute_selected_scale', $i );
-				$selected_box_shadow_color = $this->settings->get_current_setting( 'attribute_selected_box_shadow_color', $i );
-				$selected_border_color     = $this->settings->get_current_setting( 'attribute_selected_border_color', $i );
+				$selected_box_shadow_color = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_selected_box_shadow_color', $i ) );
+				$selected_border_color     = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_selected_border_color', $i ) );
 				$selected_border_width     = $this->settings->get_current_setting( 'attribute_selected_border_width', $i );
 
 				$out_of_stock = $this->settings->get_current_setting( 'attribute_out_of_stock', $i );
@@ -876,8 +894,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Frontend_Frontend {
 				$tooltip_enable       = $this->settings->get_current_setting( 'attribute_tooltip_enable', $i );
 				$tooltip_type         = $this->settings->get_current_setting( 'attribute_tooltip_type', $i );
 				$tooltip_position     = $this->settings->get_current_setting( 'attribute_tooltip_position', $i );
-				$tooltip_border_color = $this->settings->get_current_setting( 'attribute_tooltip_border_color', $i );
-				$tooltip_bg_color     = $this->settings->get_current_setting( 'attribute_tooltip_bg_color', $i );
+				$tooltip_border_color = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_tooltip_border_color', $i ) );
+				$tooltip_bg_color     = vi_wpvs_sanitize_css_color( $this->settings->get_current_setting( 'attribute_tooltip_bg_color', $i ) );
 
 				if ( $attribute_transition ) {
 					$css .= '.vi-wpvs-variation-wrap.vi-wpvs-variation-wrap-' . $id . ' .vi-wpvs-option-wrap{';

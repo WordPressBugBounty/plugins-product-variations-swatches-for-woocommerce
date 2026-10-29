@@ -345,10 +345,22 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                     </label>
                                 </th>
                                 <td>
-                                    <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
-                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                    <?php $this->render_pro_unlock(); ?>
                                     <p class="description">
 			                            <?php esc_html_e( 'Show all items of the attribute in a slider. The tooltip will hide on slider.', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>
+			                            <?php esc_html_e( 'Swatches in product description', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </label>
+                                </th>
+                                <td>
+                                    <?php $this->render_pro_unlock(); ?>
+                                    <p class="description">
+			                            <?php esc_html_e( 'Display variation swatches inside the product description area on the single product page.', 'product-variations-swatches-for-woocommerce' ); ?>
                                     </p>
                                 </td>
                             </tr>
@@ -914,8 +926,53 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
                                                     <label for="">
 			                                            <?php esc_html_e( 'Tooltip image width', 'product-variations-swatches-for-woocommerce' ); ?>
                                                     </label>
-                                                    <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
-                                                       target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                                                    <?php $this->render_pro_unlock(); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+										<?php esc_html_e( 'Attribute value for Color/Image type', 'product-variations-swatches-for-woocommerce' ); ?>
+                                    </div>
+                                    <div class="content">
+                                        <div class="field">
+                                            <p class="description">
+												<?php esc_html_e( 'Show attribute value text on color/image swatches (position, offset, font scale, colors).', 'product-variations-swatches-for-woocommerce' ); ?>
+                                            </p>
+                                            <div class="equal width fields">
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Enable', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <?php $this->render_pro_unlock(); ?>
+                                                </div>
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Vertical position', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <select class="vi-ui fluid dropdown" disabled>
+                                                        <option><?php esc_html_e( 'Top', 'product-variations-swatches-for-woocommerce' ); ?></option>
+                                                        <option><?php esc_html_e( 'Bottom', 'product-variations-swatches-for-woocommerce' ); ?></option>
+                                                    </select>
+                                                </div>
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Vertical offset', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <input type="number" disabled value="0">
+                                                </div>
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Cut off long text', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <?php $this->render_pro_unlock(); ?>
+                                                </div>
+                                            </div>
+                                            <div class="equal width fields" style="margin-top:10px;">
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Font scale', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <input type="number" disabled value="1">
+                                                </div>
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Text color', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <input type="text" disabled value="#222222">
+                                                </div>
+                                                <div class="field">
+                                                    <label><?php esc_html_e( 'Background', 'product-variations-swatches-for-woocommerce' ); ?></label>
+                                                    <input type="text" disabled value="#ffffff">
                                                 </div>
                                             </div>
                                         </div>
@@ -927,8 +984,7 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 						?>
                         <p>
 							<?php esc_html_e( 'You can add only 3 profiles. Please update Pro version to add unlimited profiles.', 'product-variations-swatches-for-woocommerce' ); ?>
-                            <a class="vi-ui button" href="https://villatheme.com/extensions/woocommerce-product-variations-swatches/"
-                               target="_blank"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?> </a>
+                            <?php $this->render_pro_unlock(); ?>
                         </p>
                     </div>
                     <div class="vi-ui bottom attached tab segment" data-tab="product_list">
@@ -1230,9 +1286,20 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 
 				return;
 			}
+			$max_bytes = (int) apply_filters( 'viwpvs_import_settings_max_bytes', 3 * 1024 * 1024 );
+			if ( ! empty( $import['size'] ) && (int) $import['size'] > $max_bytes ) {
+				$this->error = esc_html__( 'Import file is too large.', 'product-variations-swatches-for-woocommerce' );
+
+				return;
+			}
 			$file_content = file_get_contents( $import['tmp_name'] );// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 			if ( ! $file_content ) {
 				$this->error = esc_html__( 'File is empty.', 'product-variations-swatches-for-woocommerce' );
+
+				return;
+			}
+			if ( strlen( $file_content ) > $max_bytes ) {
+				$this->error = esc_html__( 'Import file is too large.', 'product-variations-swatches-for-woocommerce' );
 
 				return;
 			}
@@ -1255,7 +1322,11 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 
 				return;
 			}
-			update_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings );
+			$allowed_keys = array_merge( array_keys( $this->settings->get_default() ), array( 'check_swatches_settings', 'names', 'ids' ) );
+			$allowed_keys = array_unique( array_merge( $allowed_keys, array_keys( (array) json_decode( $this->settings->get_reset_data(), true ) ) ) );
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+			$vi_wpvs_settings = array_intersect_key( $vi_wpvs_settings, array_flip( $allowed_keys ) );
+            update_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings, false );
 
 			return;
 		}
@@ -1351,13 +1422,53 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 				}
 			}
 			$args = wp_parse_args( $args, get_option( 'vi_woo_product_variation_swatches_params', $vi_wpvs_settings ) );
-			update_option( 'vi_woo_product_variation_swatches_params', $args );
+			$color_keys = array(
+				'attribute_default_box_shadow_color',
+				'attribute_default_color',
+				'attribute_default_bg_color',
+				'attribute_default_border_color',
+				'attribute_hover_box_shadow_color',
+				'attribute_hover_color',
+				'attribute_hover_bg_color',
+				'attribute_hover_border_color',
+				'attribute_selected_box_shadow_color',
+				'attribute_selected_color',
+				'attribute_selected_bg_color',
+				'attribute_selected_border_color',
+				'attribute_selected_icon_color',
+				'attribute_tooltip_bg_color',
+				'attribute_tooltip_color',
+				'attribute_tooltip_border_color',
+			);
+			foreach ( $color_keys as $color_key ) {
+				if ( empty( $args[ $color_key ] ) || ! is_array( $args[ $color_key ] ) ) {
+					continue;
+				}
+				$args[ $color_key ] = array_map( 'vi_wpvs_sanitize_css_color', $args[ $color_key ] );
+			}
+			if ( isset( $args['single_attr_selected_color'] ) ) {
+				$args['single_attr_selected_color'] = vi_wpvs_sanitize_css_color( $args['single_attr_selected_color'] );
+			}
+            update_option( 'vi_woo_product_variation_swatches_params', $args, false );
             // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 			$vi_wpvs_settings = $args;
 			$this->settings                  = VI_WOO_PRODUCT_VARIATIONS_SWATCHES_DATA::get_instance(true);
 		}
 	}
 
+	/**
+	 * Render Freemium unlock CTA (no Pro runtime).
+	 */
+	protected function render_pro_unlock() {
+		$pro_url = 'https://villatheme.com/extensions/woocommerce-product-variations-swatches/';
+		?>
+<!--        <span class="vi-ui orange mini label">PRO</span>-->
+        <a class="vi-ui button"
+           href="<?php echo esc_url( $pro_url ); ?>"
+           target="_blank"
+           rel="noopener noreferrer"><?php esc_html_e( 'Unlock This Feature', 'product-variations-swatches-for-woocommerce' ); ?></a>
+		<?php
+	}
 
 	public function admin_enqueue_scripts() {
 		$page = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -1371,20 +1482,6 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES_Admin_Settings {
 				unset( $wp_scripts->registered['accordion'] );
 				wp_dequeue_script( 'accordion' );
 			}
-//			$scripts = $wp_scripts->registered;
-//			foreach ( $scripts as $k => $script ) {
-//				preg_match( '/^\/wp-/i', $script->src, $result );
-//				if ( count( array_filter( $result ) ) ) {
-//					preg_match( '/^(\/wp-content\/plugins|\/wp-content\/themes)/i', $script->src, $result1 );
-//					if ( count( array_filter( $result1 ) ) ) {
-//						wp_dequeue_script( $script->handle );
-//					}
-//				} else {
-//					if ( $script->handle != 'query-monitor' ) {
-//						wp_dequeue_script( $script->handle );
-//					}
-//				}
-//			}
 			wp_dequeue_style( 'eopa-admin-css' );
 			/*Stylesheet*/
 			wp_enqueue_style( 'viwvps-semantic-ui-accordion', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_CSS . 'accordion.min.css', '', VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION );

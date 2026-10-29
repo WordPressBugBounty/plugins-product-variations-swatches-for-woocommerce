@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Product Variations Swatches for WooCommerce
+ * Plugin Name: Choosly – Product Variations Swatches for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woocommerce-product-variations-swatches
  * Description: Showcase variations and impress your customers with beautiful swatches such as color, button, image, and more.
- * Version: 1.1.19
+ * Version: 1.1.20
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -11,17 +11,17 @@
  * Text Domain: product-variations-swatches-for-woocommerce
  * Domain Path: /languages
  * Copyright 2020-2026 VillaTheme.com. All rights reserved.
+ * Requires at least: 6.0
  * Tested up to: 7.1
  * WC requires at least: 7.0
- * WC tested up to: 11.0.0
+ * WC tested up to: 11.2
  * Requires PHP: 7.4
- * Requires at least: 5.0
  * Requires Plugins: woocommerce
  **/
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.19' );
+define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.20' );
 /**
  * Return if the premium version is active
  */
@@ -53,8 +53,8 @@ class VI_WOO_PRODUCT_VARIATIONS_SWATCHES {
 		}
 		$environment = new \VillaTheme_Require_Environment( [
 				'plugin_name'     => 'Product Variations Swatches for WooCommerce',
-				'php_version'     => '7.0',
-				'wp_version'      => '5.0',
+				'php_version'     => '7.4',
+				'wp_version'      => '6.0',
 				'require_plugins' => [
 					[
 						'slug' => 'woocommerce',

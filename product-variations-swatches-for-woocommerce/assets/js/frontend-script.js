@@ -406,8 +406,9 @@
             }
 
             if ($(v).data('show_selected_item') && $(v).find('.vi-wpvs-option-wrap-selected').length && $(v).find('.vi-wpvs-option-wrap-selected').data('attribute_label')) {
+                let selectedLabel = String($(v).find('.vi-wpvs-option-wrap-selected').data('attribute_label') || '');
                 if ($(v).parent().parent().find('.vi-wpvs-label-selected').length) {
-                    $(v).parent().parent().find('.vi-wpvs-label-selected.vi-wpvs-label-selected-title').html($(v).find('.vi-wpvs-option-wrap-selected').data('attribute_label'));
+                    $(v).parent().parent().find('.vi-wpvs-label-selected.vi-wpvs-label-selected-title').text(selectedLabel);
                     $(v).parent().parent().find('.vi-wpvs-label-selected').removeClass('vi-wpvs-hidden');
                 } else {
                     let $append_wrap = $(v).parent().parent().find('.label');
@@ -416,9 +417,9 @@
                     }
                     if ($append_wrap.length) {
                         if (vi_wpvs_frontend_param?.single_attr_selected_separator){
-                            $append_wrap.append('<span class="vi-wpvs-label-selected vi-wpvs-label-selected-separator">' + vi_wpvs_frontend_param.single_attr_selected_separator + '</span>')
+                            $append_wrap.append($('<span class="vi-wpvs-label-selected vi-wpvs-label-selected-separator"></span>').text(String(vi_wpvs_frontend_param.single_attr_selected_separator)));
                         }
-                        $append_wrap.append('<span class="vi-wpvs-label-selected vi-wpvs-label-selected-title">' +  $(v).find('.vi-wpvs-option-wrap-selected').data('attribute_label') + '</span>');
+                        $append_wrap.append($('<span class="vi-wpvs-label-selected vi-wpvs-label-selected-title"></span>').text(selectedLabel));
                         $append_wrap.css({
                             display: 'inline-flex',
                             flexWrap: 'wrap',

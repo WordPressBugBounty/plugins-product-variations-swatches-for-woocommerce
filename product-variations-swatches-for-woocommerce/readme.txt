@@ -1,13 +1,13 @@
-=== Product Variations Swatches for WooCommerce ===
+=== Choosly – Product Variations Swatches for WooCommerce ===
 Contributors: villatheme, mrt3vn
 Donate link: http://www.villatheme.com/donate
 Tags: ecommerce, variation swatches for woocommerce, woocommerce, woocommerce swatches, woocommerce variation swatches
-Requires at least: 5.0
+Requires at least: 6.0
 Requires PHP: 7.4
 WC requires at least: 7.0
-WC tested up to: 11.0.0
+WC tested up to: 11.2
 Tested up to: 7.1
-Stable tag: trunk
+Stable tag: 1.1.20
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,8 +244,24 @@ If you use WPML to translate attributes, you only need configure attribute image
 2. Swatches on single product page
 
 == Changelog ==
+
+2026.10.29 - version 1.1.20
+- Fixed: Global Attributes admin pagination
+- Fixed: Escape selected attribute label / separator in frontend JS
+- Updated: Sanitize CSS colors for swatches / inline styles
+- Updated: Capability check when saving product attribute swatches
+- Updated: Frontend assets enqueue only on WooCommerce pages
+- Updated: Variation image lookup map per attribute
+- Updated: Settings option saved with autoload disabled
+- Updated: Rename data-our_of_stock → data-out_of_stock
+- Updated: Minimum WordPress version 6.0
+- Updated: WooCommerce admin script handles (Select2) for WC 10.3+
+- Updated: Read product attribute swatch settings when meta is already stored as an array
+- Updated: Plugin translations use determine_locale() and the standard languages folder path
+
+
 2026.08.25 - version 1.1.19
-- Updated: Update security
+- Updated: VillaTheme support
 - Updated: Compatibility check with WP 7.1
 
 2026.08.17 - version 1.1.18
