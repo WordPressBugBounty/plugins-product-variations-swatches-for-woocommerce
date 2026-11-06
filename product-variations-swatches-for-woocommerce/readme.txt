@@ -7,7 +7,7 @@ Requires PHP: 7.4
 WC requires at least: 7.0
 WC tested up to: 11.2
 Tested up to: 7.1
-Stable tag: 1.1.20
+Stable tag: trunk
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -244,6 +244,9 @@ If you use WPML to translate attributes, you only need configure attribute image
 2. Swatches on single product page
 
 == Changelog ==
+
+2026.11.06 - version 1.1.21
+- Updated: VillaTheme support
 
 2026.10.29 - version 1.1.20
 - Fixed: Global Attributes admin pagination

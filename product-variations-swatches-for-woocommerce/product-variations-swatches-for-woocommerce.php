@@ -3,7 +3,7 @@
  * Plugin Name: Choosly – Product Variations Swatches for WooCommerce
  * Plugin URI: https://villatheme.com/extensions/woocommerce-product-variations-swatches
  * Description: Showcase variations and impress your customers with beautiful swatches such as color, button, image, and more.
- * Version: 1.1.20
+ * Version: 1.1.21
  * Author: VillaTheme
  * Author URI: https://villatheme.com
  * License:           GPL v2 or later
@@ -21,7 +21,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.20' );
+define( 'VI_WOO_PRODUCT_VARIATIONS_SWATCHES_VERSION', '1.1.21' );
 /**
  * Return if the premium version is active
  */
